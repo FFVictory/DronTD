@@ -1,5 +1,6 @@
-extends layout
-
-block content
-  h1= title
-  p Welcome to #{title}
+doctype html
+head
+  script(src='javascripts/easeljs-0.7.0.min.js')
+  script(src='javascripts/jquery/dist/jquery.min.js')
+body
+  canvas#gameCanvas(width='300' , height='300')
