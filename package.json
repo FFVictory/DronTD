@@ -17,6 +17,7 @@
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-clean": "^0.3.1",
+    "gulp-complexity": "^0.3.0",
     "gulp-filesize": "0.0.6",
     "gulp-util": "^3.0.4"
   }

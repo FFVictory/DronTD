@@ -2,10 +2,10 @@ var size = require('gulp-filesize');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var clean = require('gulp-clean');
+var complexity = require('gulp-complexity');
 
 
-
-gulp.task('default',['clean'],function(){
+gulp.task('default',['clean' , 'complexity'],function(){
 
 })
 
@@ -18,3 +18,7 @@ gulp.task('clean',['size'], function(){
     gulp.src('./dist/')
         .pipe(clean());
 })
+gulp.task('complexity', function(){
+    return gulp.src('./public/javascripts/project/*.js')
+        .pipe(complexity());
+});
