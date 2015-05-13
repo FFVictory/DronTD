@@ -20,6 +20,7 @@
     "gulp-clean": "^0.3.1",
     "gulp-complexity": "^0.3.0",
     "gulp-filesize": "0.0.6",
+    "gulp-jshint": "^1.10.0",
     "gulp-nodemon": "^2.0.3",
     "gulp-plumber": "^1.0.0",
     "gulp-uglify": "^1.2.0",
