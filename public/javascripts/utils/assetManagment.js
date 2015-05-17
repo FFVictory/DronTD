@@ -6,14 +6,14 @@ var assetManagement = {};
 assetManagement.start = (function(){
 var stage;
 var preload;
-var level;
+var gameWorld;
 var highGround;
 var images;
 
 
     var load = function(stageInit,levelInit){
         stage = stageInit;
-        level = levelInit;
+        gameWorld = levelInit;
         images = Object.create(null);
         loadImages();
 
@@ -22,7 +22,9 @@ var images;
     var loadImages = function loadImages(){
         preload =  new createjs.LoadQueue();
         var manifest = [
-            {src : 'images/115.png' , id : 'highGround'}
+            {src : 'images/115.png' , id : 'lowGround'},
+            {src : 'images/570.png' , id : 'highGround'},
+            {src : 'images/iceTower.png' , id : 'iceTower'}
         ];
         preload.addEventListener("fileload" , handleFileLoad);
         preload.addEventListener("complete" , loadTiles);
@@ -33,21 +35,35 @@ var images;
 
     //Might need to change the scope of stage and level
     function loadTiles(){
-        for(var i = 0 ; i<level.length ; i++){
-            for(var j =0 ; j<level[i].length ; j++){
+        for(var i = 0 ; i<gameWorld.length ; i++){
+            for(var j =0 ; j<gameWorld[i].length ; j++){
                 // There needs to be a decision which tile to load
-
-                var x = (32 * i) + 1;
-                var y = (32 * j) + 1;
-                loadTile(x,y);
+                //also needs support for multiple layers
+                loadTile(i,j);
             }
         }
 
     }
     function loadTile(x,y){
-        var img  = new createjs.Bitmap(preload.getResult(images["highGround"]));
-        img.x = x;
-        img.y =y;
+        var img;
+        var locX, locY;
+        if(gameWorld[x][y].type === "highGround"){
+            img  = new createjs.Bitmap(preload.getResult(images["highGround"]));
+        }
+        else if(gameWorld[x][y].type === "lowGround"){
+            img  = new createjs.Bitmap(preload.getResult(images["lowGround"]));
+        }
+        else{
+            img  = new createjs.Bitmap(preload.getResult(images["highGround"]));
+        }
+        locX =  (32 * x) + 1;
+        locY = (32 * y) + 1;
+        img.x = locX;
+        img.y = locY;
+        stage.addChild(img);
+        if(gameWorld[x][y].tower === "iceTower"){
+            img  = new createjs.Bitmap(preload.getResult(images["iceTower"]));
+        }
         stage.addChild(img);
     }
 
