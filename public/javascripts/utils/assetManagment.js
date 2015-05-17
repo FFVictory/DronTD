@@ -60,6 +60,8 @@ var images;
     function loadTower(x,y){
         var img;
         var locX, locY;
+        locX =  (32 * x) + 1;
+        locY = (32 * y) + 1;
         if(gameWorld[x][y].tower === "iceTower"){
             img  = new createjs.Bitmap(preload.getResult(images["iceTower"]));
             alert(img.getBounds());
