@@ -5,6 +5,7 @@ var assetManagement = {};
 "use strict";
 assetManagement.start = (function(){
 var stage;
+var tileHolder;
 var preload;
 var gameWorld;
 var highGround;
@@ -13,6 +14,9 @@ var images;
 
     var load = function(stageInit,levelInit){
         stage = stageInit;
+        tileHolder = new createjs.Container();
+        tileHolder.name = "tileHolder";
+        stage.addChild(tileHolder);
         gameWorld = levelInit;
         images = Object.create(null);
         loadImages();
@@ -51,10 +55,15 @@ var images;
                 loadTower(i,j);
             }
         }
-        var img  = new createjs.Bitmap(preload.getResult(images["canBuild"]));
-        img.x = 3 * 32;
-        img.y = 3 * 32;
-        stage.addChild(img);
+        /** TEST STUFF
+
+                if(gameWorld[i][j].canBuildTower === true){
+                    var img  = new createjs.Bitmap(preload.getResult(images["canBuild"]));
+                    img.x = (i * 32)+1;
+                    img.y = (j * 32)+1;
+                    stage.addChild(img);
+                }
+         */
     }
 
     function loadTower(x,y){
@@ -64,7 +73,6 @@ var images;
         locY = (32 * y) + 1;
         if(gameWorld[x][y].tower === "iceTower"){
             img  = new createjs.Bitmap(preload.getResult(images["iceTower"]));
-            alert(img.getBounds());
             img.x = locX;
             img.y = locY;
             stage.addChild(img);
@@ -87,7 +95,7 @@ var images;
         locY = (32 * y) + 1;
         img.x = locX;
         img.y = locY;
-        stage.addChild(img);
+        stage.getChildByName("tileHolder").addChild(img);
         //more cases to be added
 
     }
