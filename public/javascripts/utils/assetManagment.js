@@ -23,19 +23,19 @@ var images;
         preload =  new createjs.LoadQueue();
         var manifest = [
             {src : 'images/115.png' , id : 'lowGround'},
-            {src : 'images/570.png' , id : 'highGround'},
+            {src : 'images/570_2.png' , id : 'highGround'},
             {src : 'images/iceTower.png' , id : 'iceTower'},
             {src : 'images/canBuild.png' , id : 'canBuild'}
         ];
         preload.addEventListener("fileload" , handleFileLoad);
-        preload.addEventListener("complete" , loadTiles);
+        preload.addEventListener("complete" , loadGraphics);
         preload.loadManifest(manifest);
 
     };
 
 
     //Might need to change the scope of stage and level
-    function loadTiles(){
+    function loadGraphics(){
         for(var i = 0 ; i<gameWorld.length ; i++){
             for(var j =0 ; j<gameWorld[i].length ; j++){
                 // There needs to be a decision which tile to load
@@ -43,8 +43,32 @@ var images;
                 loadTile(i,j);
             }
         }
-
+        //potential performance gains
+        for(i = 0 ; i<gameWorld.length ; i++){
+            for(j =0 ; j<gameWorld[i].length ; j++){
+                // There needs to be a decision which tile to load
+                //also needs support for multiple layers
+                loadTower(i,j);
+            }
+        }
+        var img  = new createjs.Bitmap(preload.getResult(images["canBuild"]));
+        img.x = 3 * 32;
+        img.y = 3 * 32;
+        stage.addChild(img);
     }
+
+    function loadTower(x,y){
+        var img;
+        var locX, locY;
+        if(gameWorld[x][y].tower === "iceTower"){
+            img  = new createjs.Bitmap(preload.getResult(images["iceTower"]));
+            alert(img.getBounds());
+            img.x = locX;
+            img.y = locY;
+            stage.addChild(img);
+        }
+    }
+
     function loadTile(x,y){
         var img;
         var locX, locY;
@@ -63,10 +87,7 @@ var images;
         img.y = locY;
         stage.addChild(img);
         //more cases to be added
-        if(gameWorld[x][y].tower === "iceTower"){
-            img  = new createjs.Bitmap(preload.getResult(images["iceTower"]));
-        }
-        stage.addChild(img);
+
     }
 
     var handleFileLoad = function (event){
