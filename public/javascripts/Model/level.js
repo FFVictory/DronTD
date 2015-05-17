@@ -28,6 +28,7 @@ level = (function(){
             for(var j = 0 ; j< gameWorld[i].length ; j++){
                 gameWorld[i][j] = Object.create(null); //Might add prototype inheritence
                 gameWorld[i][j].type = "highGround";
+                gameWorld[i][j].canBuildTower = true;
             }
         }
     }
@@ -35,9 +36,18 @@ level = (function(){
         if(levelNumber == 1){
             for(var j = 0 ; j<gameWorld[0].length ; j++){
                 gameWorld[5][j].type = "lowGround";
+                gameWorld[5][j].canBuildTower = false;
             }
-            gameWorld[3][3].tower="iceTower";
+            addTower(2,2,"iceTower");
         }
+    }
+
+    function addTower(x , y , towerType){
+       gameWorld[x][y].tower = towerType;
+       gameWorld[x][y].canBuildTower = false;
+       gameWorld[x+1][y+1].canBuildTower = false;
+       gameWorld[x][y+1].canBuildTower = false;
+       gameWorld[x+1][y].canBuildTower = false;
     }
 
     return {
