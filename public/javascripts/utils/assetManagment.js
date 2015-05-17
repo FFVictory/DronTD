@@ -24,7 +24,8 @@ var images;
         var manifest = [
             {src : 'images/115.png' , id : 'lowGround'},
             {src : 'images/570.png' , id : 'highGround'},
-            {src : 'images/iceTower.png' , id : 'iceTower'}
+            {src : 'images/iceTower.png' , id : 'iceTower'},
+            {src : 'images/canBuild.png' , id : 'canBuild'}
         ];
         preload.addEventListener("fileload" , handleFileLoad);
         preload.addEventListener("complete" , loadTiles);
@@ -61,6 +62,7 @@ var images;
         img.x = locX;
         img.y = locY;
         stage.addChild(img);
+        //more cases to be added
         if(gameWorld[x][y].tower === "iceTower"){
             img  = new createjs.Bitmap(preload.getResult(images["iceTower"]));
         }

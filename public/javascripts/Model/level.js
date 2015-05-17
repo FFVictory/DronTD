@@ -7,6 +7,7 @@ level = (function(){
     var stage;
     var gameWorld;
     var assetManagementLocal;
+    var towers = [];
     //This function accepts an integer representing the level to be loaded.
     // It should modify the level array accordingly.
     // And maybe do the asset managment.

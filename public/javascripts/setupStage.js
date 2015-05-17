@@ -7,11 +7,15 @@ var setupStage = (function(){
     var canvas;
     //initilizes the canvas
     var canvasInit = function(){
-        alert("canvasInit");
         canvas = document.getElementById("gameCanvas");
+        console.log("nelox");
         stage = new createjs.Stage(canvas);
         stage.snapToPixelEnabled = true;
         canvasContext = canvas.getContext('2d');
+
+        return {
+            stage : stage
+        };
     };
     //dolbaebi
     var ticker = function(){
