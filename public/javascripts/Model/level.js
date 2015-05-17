@@ -13,6 +13,13 @@ level = (function(){
     // And maybe do the asset managment.
 
     function initialize(stageInit){
+        createGameWorld(stageInit);
+        changeLevel(1);
+         var assetManagementLocal =  assetManagement;
+        assetManagementLocal.start.load(stage,gameWorld);
+    }
+
+    function createGameWorld(stageInit){
         gameWorld = new Array(15);
         var i = 0;
         stage = stageInit;
@@ -23,19 +30,14 @@ level = (function(){
                 gameWorld[i][j].type = "highGround";
             }
         }
-        changeLevel(1);
-         var assetManagementLocal =  assetManagement;
-        assetManagementLocal.start.load(stage,gameWorld);
     }
-
     function changeLevel(levelNumber){
         if(levelNumber == 1){
-            console.log("level1 loading");
+            for(var j = 0 ; j<gameWorld[0].length ; j++){
+                gameWorld[5][j].type = "lowGround";
+            }
+            gameWorld[3][3].tower="iceTower";
         }
-        for(var j = 0 ; j<gameWorld[0].length ; j++){
-            gameWorld[5][j].type = "lowGround";
-        }
-        gameWorld[2][2].tower="iceTower";
     }
 
     return {
