@@ -6,6 +6,7 @@ var assetManagement = {};
 assetManagement.start = (function(){
 var stage;
 var tileHolder;
+var buildableGrid;
 var preload;
 var gameWorld;
 var highGround;
@@ -15,8 +16,11 @@ var images;
     var load = function(stageInit,levelInit){
         stage = stageInit;
         tileHolder = new createjs.Container();
+        buildableGrid = new createjs.Container();
         tileHolder.name = "tileHolder";
+        buildableGrid.name = "buildableGrid";
         stage.addChild(tileHolder);
+        stage.addChild(buildableGrid);
         gameWorld = levelInit;
         images = Object.create(null);
         loadImages();
@@ -126,7 +130,7 @@ var images;
             var img = new createjs.Bitmap(preload.getResult(images["canBuild"]));
             img.x = pixelsX;
             img.y = pixelsY;
-            stage.addChild(img);
+            buildableGrid.addChild(img);
         }
     }
 
