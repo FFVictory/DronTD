@@ -3,7 +3,7 @@
  */
 function arrowTower(options){
     this.damage = options.damage || 0;
-    this.type = "arrow";
+    this.type = "arrowTower";
     //sjuda nado dobavitj vewi kotorie pomogut opredeljatj kartinku , navernoe.
 
 }

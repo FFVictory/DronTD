@@ -3,7 +3,7 @@
  */
 function poisonTower(options){
     this.damage = options.damage || 0;
-    this.type = "poison";
+    this.type = "poisonTower";
     //sjuda nado dobavitj vewi kotorie pomogut opredeljatj kartinku , navernoe.
 
 }

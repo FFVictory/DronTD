@@ -9,13 +9,13 @@ towerFactory = (function(){
     towerFactory.prototype.towerType = arrowTower;
     towerFactory.prototype.createTower = function(options){
         switch(options.towertType){
-            case "fire" :
+            case "fireTower" :
                 this.towerType = fireTower;
                 break;
-            case "arrow" :
+            case "arrowTower" :
                 this.towerType = arrowTower;
                 break;
-            case "poison" :
+            case "poisonTower" :
                 this.towerType = poisonTower;
                 break;
         }
