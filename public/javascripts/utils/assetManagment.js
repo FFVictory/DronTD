@@ -69,12 +69,12 @@ var images;
     function loadTower(x,y){
         var img;
         var locX, locY;
-        locX =  (32 * x) + 1;
-        locY = (32 * y) + 1;
+        locX =  Math.round((32 * x) + 1);
+        locY = Math.round((32 * y) + 1);
         if(gameWorld[x][y].tower === "iceTower"){
             img  = new createjs.Bitmap(preload.getResult(images["iceTower"]));
-            img.x = locX;
-            img.y = locY;
+            img.x = Math.round(locX);
+            img.y = Math.round(locY);
             stage.addChild(img);
         }
     }
@@ -91,8 +91,8 @@ var images;
         else{
             img  = new createjs.Bitmap(preload.getResult(images["highGround"]));
         }
-        locX =  (32 * x) + 1;
-        locY = (32 * y) + 1;
+        locX =  Math.round((32 * x) + 1);
+        locY = Math.round((32 * y) + 1);
         img.x = locX;
         img.y = locY;
         stage.getChildByName("tileHolder").addChild(img);
@@ -103,6 +103,19 @@ var images;
     var handleFileLoad = function (event){
         images[event.item.id] = event.item.id;
     };
+
+    /*
+    function stubName(pixelsX ,pixelsY ){
+        var x = (pixelsX -1 )/32;
+        var y = (pixelsY -1 )/32;
+        if(gameWorld[x][y].canBuildTower === true) {
+            var img = new createjs.Bitmap(preload.getResult(images["canBuild"]));
+            img.x = pixelsX;
+            img.y = pixelsY;
+            stage.addChild(img);
+        }
+    }
+    */
 
     return {
         load : load

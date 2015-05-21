@@ -1,8 +1,13 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
+#gameCanvas{
 
+  vertical-align :bottom;
+}
+#uiCanvas{
+  position:fixed;
+}
 a {
   color: #00B7FF;
 }

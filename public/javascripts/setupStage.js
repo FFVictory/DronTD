@@ -5,16 +5,23 @@ var setupStage = (function(){
     var stage;
     var canvasContext;
     var canvas;
+    var uiStage;
+    var uiCanvasContext;
+    var uiCanvas;
     //initilizes the canvas
     var canvasInit = function(){
         canvas = document.getElementById("gameCanvas");
-        console.log("nelox");
         stage = new createjs.Stage(canvas);
         stage.snapToPixelEnabled = true;
         canvasContext = canvas.getContext('2d');
+        uiCanvas = document.getElementById("uiCanvas");
+        uiStage = new createjs.Stage(uiCanvas);
+        uiStage.snapToPixelEnabled = true;
+        uiCanvasContext = uiCanvas.getContext('2d');
 
         return {
-            stage : stage
+            stage : stage,
+            uiStage : uiStage
         };
     };
     //dolbaebi
