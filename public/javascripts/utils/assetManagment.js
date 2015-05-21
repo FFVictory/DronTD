@@ -38,7 +38,10 @@ var images;
             {src : 'images/570_2.png' , id : 'highGround'},
             {src : 'images/iceTower.png' , id : 'iceTower'},
             {src : 'images/canBuild.png' , id : 'canBuild'},
-            {src : 'images/cantBuild.png' , id : 'cantBuild'}
+            {src : 'images/cantBuild.png' , id : 'cantBuild'},
+            {src : 'images/arrowTower.png' , id : 'arrowTower'},
+            {src : 'images/fireTower.png' , id : 'fireTower'},
+            {src : 'images/poisonTower.png' , id : 'poisonTower'}
         ];
         preload.addEventListener("fileload" , handleFileLoad);
         preload.addEventListener("complete" , loadGraphics);
@@ -56,7 +59,7 @@ var images;
                 loadTile(i,j);
             }
         }
-        //potential performance gains
+        //potential performance gains , a posuti eto vashe ne nado
         for(i = 0 ; i<gameWorld.length ; i++){
             for(j =0 ; j<gameWorld[i].length ; j++){
                 // There needs to be a decision which tile to load
@@ -98,8 +101,8 @@ var images;
         var locX, locY;
         locX =  Math.round((32 * x) + 1);
         locY = Math.round((32 * y) + 1);
-        if(gameWorld[x][y].tower === "iceTower"){
-            img  = new createjs.Bitmap(preload.getResult(images["iceTower"]));
+        if(gameWorld[x][y].tower === "arrowTower"){
+            img  = new createjs.Bitmap(preload.getResult(images["arrowTower"]));
             img.x = Math.round(locX);
             img.y = Math.round(locY);
             stage.addChild(img);
