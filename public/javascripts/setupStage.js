@@ -14,10 +14,6 @@ var setupStage = (function(){
         stage = new createjs.Stage(canvas);
         stage.snapToPixelEnabled = true;
         canvasContext = canvas.getContext('2d');
-        uiCanvas = document.getElementById("uiCanvas");
-        uiStage = new createjs.Stage(uiCanvas);
-        uiStage.snapToPixelEnabled = true;
-        uiCanvasContext = uiCanvas.getContext('2d');
 
         return {
             stage : stage,

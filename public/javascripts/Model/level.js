@@ -15,8 +15,10 @@ level = (function(){
     function initialize(stageInit){
         createGameWorld(stageInit);
         changeLevel(1);
-         var assetManagementLocal =  assetManagement;
-        assetManagementLocal.start.load(stage,gameWorld);
+
+        return {
+            gameWorld : gameWorld
+        }
     }
 
     function createGameWorld(stageInit){

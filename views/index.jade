@@ -7,10 +7,10 @@ head
   script(src='javascripts/controller.js')
   script(src='javascripts/setupStage.js')
   script(src='javascripts/gameWorld.js')
-  script(src='javascripts/utils/assetManagment.js')
   script(src='javascripts/Model/level.js')
-  script(src='javascripts/ui.js')
-  script(src='javascripts/utils/uiAssetManagment.js')
+  script(src='javascripts/utils/assetManagment.js')
+
 body
+  button(onclick="controller.start.build()")
   div(width='480')
     canvas#gameCanvas(width='480' , height='320')

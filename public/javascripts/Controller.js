@@ -8,15 +8,23 @@ var controller = {};
 controller.start = (function(){
     "use strict";
     var stage;
+    var gameWorld;
+    var assetManagementLocal;
+    var previous; //refactor mb
     $(document).ready(function(){
 
         stage = setupStage.canvasInit().stage;
-        uiStage = setupStage.canvasInit().uiStage;
         setupStage.ticker();
-        level.initialize(stage);
-        ui.initialize(uiStage);
+        gameWorld = level.initialize(stage).gameWorld;
+        assetManagementLocal = assetManagement.start;
+        assetManagementLocal.load(stage,gameWorld);
+
 
     });
+
+    function build(){
+        assetManagementLocal.showBuildableGrid();
+    }
 
     var fake = function(){
         var level = new Array(10);
@@ -24,7 +32,7 @@ controller.start = (function(){
         for(i ; i<level.length ; i++){
             level[i] = new Array(10);
         }
-        assetManagement.start.load(stage,level);
+        assetManagementLocal.load(stage,level);
 
 
     };
@@ -33,9 +41,11 @@ controller.start = (function(){
         for(var i =0 ; i< stage.getChildByName("tileHolder").children.length ; i++){
             var currentChild = stage.getChildByName("tileHolder").children[i] ;
             var pt = currentChild.globalToLocal(stage.mouseX , stage.mouseY);
-            if(stage.mouseInBounds && currentChild.hitTest(pt.x , pt.y)){
-                //console.log(currentChild.x + " and y is : " + currentChild.y);
-                //assetManagement.start.stubName(currentChild.x,currentChild.y);
+            if(stage.mouseInBounds && currentChild.hitTest(pt.x , pt.y) && (previous != currentChild)){
+                assetManagementLocal.removeChild(previous);
+                previous = currentChild;
+                console.log(currentChild.x + " and y is : " + currentChild.y);
+                assetManagement.start.stubName(currentChild.x,currentChild.y);
 
             }
         }
@@ -45,10 +55,10 @@ controller.start = (function(){
     var tick =  function(event){
         tileMouse();
         stage.update();
-        uiStage.update();
     };
 
     return {
-        tick : tick
+        tick : tick,
+        build : build
     };
 })();

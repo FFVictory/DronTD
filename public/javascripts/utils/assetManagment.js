@@ -66,6 +66,20 @@ var images;
          */
     }
 
+    function showBuildableGrid(){
+        for(var i = 0 ; i < gameWorld.length ; i++){
+            for(var j = 0 ; j< gameWorld[i].length ; j++){
+                if(gameWorld[i][j].canBuildTower === true){
+                    var img  = new createjs.Bitmap(preload.getResult(images["canBuild"]));
+                    img.x = (i * 32)+1;
+                    img.y = (j * 32)+1;
+                    stage.addChild(img);
+                }
+
+            }
+        }
+
+    }
     function loadTower(x,y){
         var img;
         var locX, locY;
@@ -104,7 +118,7 @@ var images;
         images[event.item.id] = event.item.id;
     };
 
-    /*
+
     function stubName(pixelsX ,pixelsY ){
         var x = (pixelsX -1 )/32;
         var y = (pixelsY -1 )/32;
@@ -115,10 +129,16 @@ var images;
             stage.addChild(img);
         }
     }
-    */
+
+    function unloadImage(child){
+
+
+    }
 
     return {
-        load : load
+        showBuildableGrid : showBuildableGrid,
+        load : load,
+        stubName : stubName
     }
 
 }());
