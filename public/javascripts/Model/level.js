@@ -40,12 +40,22 @@ level = (function(){
                 gameWorld[5][j].type = "lowGround";
                 gameWorld[5][j].canBuildTower = false;
             }
-            addTower(2,2,"iceTower");
         }
     }
 
     function addTower(x , y , towerType){
-       gameWorld[x][y].tower = towerType;
+       var towerFactory = new TowerFactory();
+       var tower = towerFactory.createTower({
+          towerType : towerType
+       });
+        towers.push(tower);
+       console.log( tower instanceof ArrowTower );
+        console.log(tower);
+       gameWorld[x][y].tower = tower;
+       gameWorld[x][y].drawTower = towerType;
+       gameWorld[x+1][y+1].tower = tower;
+       gameWorld[x+1][y].tower = tower;
+       gameWorld[x][y+1].tower = tower;
        gameWorld[x][y].canBuildTower = false;
        gameWorld[x+1][y+1].canBuildTower = false;
        gameWorld[x][y+1].canBuildTower = false;
@@ -53,6 +63,7 @@ level = (function(){
     }
 
     return {
-        initialize : initialize
+        initialize : initialize,
+        addTower : addTower
     }
 }());

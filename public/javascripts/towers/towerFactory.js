@@ -2,21 +2,21 @@
  * Created by Andrew on 21/05/2015.
  */
 
-var towerFactory = {};
+//This is the skeleton , which should be extended
+function TowerFactory() {}
 
-towerFactory = (function(){
 
-    towerFactory.prototype.towerType = arrowTower;
-    towerFactory.prototype.createTower = function(options){
-        switch(options.towertType){
+    TowerFactory.prototype.towerType = ArrowTower;
+    TowerFactory.prototype.createTower = function (options) {
+        switch (options.towertType) {
             case "fireTower" :
-                this.towerType = fireTower;
+                this.towerType = FireTower;
                 break;
             case "arrowTower" :
-                this.towerType = arrowTower;
+                this.towerType = ArrowTower;
                 break;
             case "poisonTower" :
-                this.towerType = poisonTower;
+                this.towerType = PoisonTower;
                 break;
         }
         return new this.towerType(options);
@@ -24,6 +24,3 @@ towerFactory = (function(){
     };
 
 
-
-
-})();
