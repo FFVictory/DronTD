@@ -37,7 +37,8 @@ var images;
             {src : 'images/115.png' , id : 'lowGround'},
             {src : 'images/570_2.png' , id : 'highGround'},
             {src : 'images/iceTower.png' , id : 'iceTower'},
-            {src : 'images/canBuild.png' , id : 'canBuild'}
+            {src : 'images/canBuild.png' , id : 'canBuild'},
+            {src : 'images/cantBuild.png' , id : 'cantBuild'}
         ];
         preload.addEventListener("fileload" , handleFileLoad);
         preload.addEventListener("complete" , loadGraphics);
@@ -134,11 +135,51 @@ var images;
     function highlightTile(pixelsX ,pixelsY ){
         var x = (pixelsX -1 )/32;
         var y = (pixelsY -1 )/32;
-        if(gameWorld[x][y].canBuildTower === true) {
-            var img = new createjs.Bitmap(preload.getResult(images["canBuild"]));
-            img.x = pixelsX;
-            img.y = pixelsY;
-            buildCursor.addChild(img);
+        var string = "cantBuild";
+        try {
+            if ((gameWorld[x][y].canBuildTower === true) && (gameWorld[x + 1][y].canBuildTower === true) && (gameWorld[x][y + 1].canBuildTower === true) && (gameWorld[x + 1][y + 1].canBuildTower === true)) {
+                string = "canBuild"
+            }
+        }
+        catch(e){
+
+        }
+
+        try {
+                var tile1 = new createjs.Bitmap(preload.getResult(images[string]));
+                tile1.x = pixelsX;
+                tile1.y = pixelsY;
+                buildCursor.addChild(tile1);
+        }
+        catch(e){
+
+        }
+        try {
+                var tile2 = new createjs.Bitmap(preload.getResult(images[string]));
+                tile2.x = pixelsX + 32;
+                tile2.y = pixelsY;
+                buildCursor.addChild(tile2);
+        }
+        catch(e){
+
+        }
+        try {
+                var tile3 = new createjs.Bitmap(preload.getResult(images[string]));
+                tile3.x = pixelsX;
+                tile3.y = pixelsY + 32;
+                buildCursor.addChild(tile3);
+        }
+        catch(e){
+
+        }
+        try {
+                var tile4 = new createjs.Bitmap(preload.getResult(images[string]));
+                tile4.x = pixelsX + 32;
+                tile4.y = pixelsY + 32;
+                buildCursor.addChild(tile4);
+        }
+        catch(e){
+
         }
     }
 
