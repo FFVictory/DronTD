@@ -6,7 +6,8 @@ var assetManagement = {};
 assetManagement.start = (function(){
 var stage;
 var tileHolder;
-var buildableGrid;
+var buildableGrid; //contains the transparent green to highlight the whole field
+var buildCursor;
 var preload;
 var gameWorld;
 var highGround;
@@ -17,10 +18,13 @@ var images;
         stage = stageInit;
         tileHolder = new createjs.Container();
         buildableGrid = new createjs.Container();
+        buildCursor= new createjs.Container();
         tileHolder.name = "tileHolder";
         buildableGrid.name = "buildableGrid";
+        buildCursor.name = "buildCursor";
         stage.addChild(tileHolder);
         stage.addChild(buildableGrid);
+        stage.addChild(buildCursor);
         gameWorld = levelInit;
         images = Object.create(null);
         loadImages();
@@ -70,6 +74,10 @@ var images;
          */
     }
 
+    function hideBuildableGrid(){
+        buildableGrid.removeAllChildren();
+        buildCursor.removeAllChildren();
+    }
     function showBuildableGrid(){
         for(var i = 0 ; i < gameWorld.length ; i++){
             for(var j = 0 ; j< gameWorld[i].length ; j++){
@@ -77,7 +85,7 @@ var images;
                     var img  = new createjs.Bitmap(preload.getResult(images["canBuild"]));
                     img.x = (i * 32)+1;
                     img.y = (j * 32)+1;
-                    stage.addChild(img);
+                    buildableGrid.addChild(img);
                 }
 
             }
@@ -123,26 +131,28 @@ var images;
     };
 
 
-    function stubName(pixelsX ,pixelsY ){
+    function highlightTile(pixelsX ,pixelsY ){
         var x = (pixelsX -1 )/32;
         var y = (pixelsY -1 )/32;
         if(gameWorld[x][y].canBuildTower === true) {
             var img = new createjs.Bitmap(preload.getResult(images["canBuild"]));
             img.x = pixelsX;
             img.y = pixelsY;
-            buildableGrid.addChild(img);
+            buildCursor.addChild(img);
         }
     }
 
     function unloadImage(child){
-
+        buildCursor.removeAllChildren();
 
     }
 
     return {
         showBuildableGrid : showBuildableGrid,
         load : load,
-        stubName : stubName
+        highlightTile : highlightTile,
+        unloadImage : unloadImage,
+        hideBuildableGrid : hideBuildableGrid
     }
 
 }());

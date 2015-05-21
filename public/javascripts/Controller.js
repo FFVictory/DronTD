@@ -11,6 +11,7 @@ controller.start = (function(){
     var gameWorld;
     var assetManagementLocal;
     var previous; //refactor mb
+    var buildMode = 0;
     $(document).ready(function(){
 
         stage = setupStage.canvasInit().stage;
@@ -23,7 +24,13 @@ controller.start = (function(){
     });
 
     function build(){
+        buildMode = 1;
         assetManagementLocal.showBuildableGrid();
+    }
+
+    function unBuild(){
+        buildMode = 0;
+        assetManagementLocal.hideBuildableGrid();
     }
 
     var fake = function(){
@@ -42,10 +49,13 @@ controller.start = (function(){
             var currentChild = stage.getChildByName("tileHolder").children[i] ;
             var pt = currentChild.globalToLocal(stage.mouseX , stage.mouseY);
             if(stage.mouseInBounds && currentChild.hitTest(pt.x , pt.y) && (previous != currentChild)){
-                assetManagementLocal.removeChild(previous);
+                if(previous !== null){
+                    assetManagementLocal.unloadImage(previous);
+
+                }
+                assetManagementLocal.highlightTile(currentChild.x,currentChild.y);
                 previous = currentChild;
-                console.log(currentChild.x + " and y is : " + currentChild.y);
-                assetManagement.start.stubName(currentChild.x,currentChild.y);
+
 
             }
         }
@@ -53,12 +63,16 @@ controller.start = (function(){
 
 
     var tick =  function(event){
-        tileMouse();
+        if(buildMode===1)
+        {
+            tileMouse();
+        }
         stage.update();
     };
 
     return {
         tick : tick,
-        build : build
+        build : build,
+        unBuild : unBuild
     };
 })();
