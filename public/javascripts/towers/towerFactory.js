@@ -3,12 +3,12 @@
  */
 
 //This is the skeleton , which should be extended
-function TowerFactory() {}
+function TowerFactory() {
 
 
     TowerFactory.prototype.towerType = ArrowTower;
     TowerFactory.prototype.createTower = function (options) {
-        switch (options.towertType) {
+        switch (options.towerType) {
             case "fireTower" :
                 this.towerType = FireTower;
                 break;
@@ -20,7 +20,7 @@ function TowerFactory() {}
                 break;
         }
         return new this.towerType(options);
-
-    };
+    }
+};
 
 
