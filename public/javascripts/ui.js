@@ -14,15 +14,17 @@ var Ui = function(){
 
     //this is called by an event listener so things are not so simple as it seems.
 
-    var toggleBuildMode = function(){
-        console.log(this);
+    var toggleBuildMode = function(towerType){
         if(UiSingleton.getInstance().buildMode === 0) {
             UiSingleton.getInstance().buildMode= 1;
             assetManagementLocal.showBuildableGrid();
         }
-        else if(UiSingleton.getInstance().buildMode === 1){
+        else if((UiSingleton.getInstance().buildMode === 1) && (towerType === UiSingleton.getInstance().selected)){
             UiSingleton.getInstance().buildMode= 0;
             assetManagementLocal.hideBuildableGrid();
+        }
+        if(towerType){
+            UiSingleton.getInstance().selected = towerType;
         }
 
 
@@ -50,6 +52,7 @@ var Ui = function(){
 
 
     return {
+        selected : selected,
         init : init,
         buildMode : buildMode,
         toggleBuildMode : toggleBuildMode,

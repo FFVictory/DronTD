@@ -48,8 +48,28 @@ var uiButtons;
         uiButton.x = 128;
         uiButton.y = 580;
         uiButton.name = "arrowTower";
-        uiButton.on("click" , uiLocal.toggleBuildMode);
+        uiButton.on("click" , function(){
+            uiLocal.toggleBuildMode("arrowTower");
+        });
         uiContainer.addChild(uiButton);
+
+        var fireButton = new createjs.Bitmap(preload.getResult(images["fireTowerUi"]));
+        fireButton.x = 228;
+        fireButton.y = 580;
+        fireButton.name = "fireTower";
+        fireButton.on("click" , function(){
+            uiLocal.toggleBuildMode("fireTower");
+        });
+        uiContainer.addChild(fireButton);
+
+        var poisonTower = new createjs.Bitmap(preload.getResult(images["poisonTowerUi"]));
+        poisonTower.x = 328;
+        poisonTower.y = 580;
+        poisonTower.name = "poisonTower";
+        poisonTower.on("click" , function(){
+            uiLocal.toggleBuildMode("poisonTower");
+        });
+        uiContainer.addChild(poisonTower);
 
     }
 
@@ -65,7 +85,9 @@ var uiButtons;
             {src : 'images/arrowTower.png' , id : 'arrowTower'},
             {src : 'images/arrowTowerUi.png' , id : 'arrowTowerUi'},
             {src : 'images/fireTower.png' , id : 'fireTower'},
+            {src : 'images/fireTowerUi.png' , id : 'fireTowerUi'},
             {src : 'images/poisonTower.png' , id : 'poisonTower'},
+            {src : 'images/poisonTowerUi.png' , id : 'poisonTowerUi'},
             {src : 'images/ui.png' , id : 'uiMain'}
         ];
         preload.addEventListener("fileload" , handleFileLoad);
@@ -134,6 +156,19 @@ var uiButtons;
                 img.y = Math.round(locY);
                 stage.addChild(img);
             }
+            else if (gameWorld[x][y].drawTower === "fireTower") {
+                img = new createjs.Bitmap(preload.getResult(images["fireTower"]));
+                img.x = Math.round(locX);
+                img.y = Math.round(locY);
+                stage.addChild(img);
+            }
+            else if (gameWorld[x][y].drawTower === "poisonTower") {
+                img = new createjs.Bitmap(preload.getResult(images["poisonTower"]));
+                img.x = Math.round(locX);
+                img.y = Math.round(locY);
+                stage.addChild(img);
+            }
+
         }
         catch(e){
             alert("Exception : assetManagement.loadTower" + e);

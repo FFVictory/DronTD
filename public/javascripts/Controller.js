@@ -22,7 +22,6 @@ controller.start = (function(){
         assetManagementLocal = assetManagement.start;
         assetManagementLocal.load(stage,gameWorld);
         stage.getChildByName("buildCursor").on("click" , handleClick);
-        level.addTower(2,2,"arrowTower");
 
     });
 
@@ -34,9 +33,10 @@ controller.start = (function(){
             x = Math.floor(event.stageX / 32);
             y = Math.floor(event.stageY / 32);
             if ((gameWorld[x][y].canBuildTower === true) && (gameWorld[x + 1][y].canBuildTower === true) && (gameWorld[x][y + 1].canBuildTower === true) && (gameWorld[x + 1][y + 1].canBuildTower === true)) {
-
-                level.addTower(x, y, "arrowTower");// WARNING : HARDCODE
-                assetManagementLocal.loadTower(x, y);
+                if(uiLocal.selected) {
+                    level.addTower(x, y, uiLocal.selected);// WARNING : HARDCODE
+                    assetManagementLocal.loadTower(x, y);
+                }
             }
         }
 
