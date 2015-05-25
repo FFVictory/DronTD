@@ -9,9 +9,11 @@ var tileHolder;
 var buildableGrid; //contains the transparent green to highlight the whole field
 var buildCursor;
 var preload;
+var uiContainer;
 var gameWorld;
 var highGround;
 var images;
+var uiButtons;
 
 
     var load = function(stageInit,levelInit){
@@ -19,17 +21,35 @@ var images;
         tileHolder = new createjs.Container();
         buildableGrid = new createjs.Container();
         buildCursor= new createjs.Container();
+        uiContainer = new createjs.Container();
         tileHolder.name = "tileHolder";
         buildableGrid.name = "buildableGrid";
         buildCursor.name = "buildCursor";
+        uiContainer.name = "uiContinaer";
         stage.addChild(tileHolder);
         stage.addChild(buildableGrid);
         stage.addChild(buildCursor);
+        stage.addChild(uiContainer);
         gameWorld = levelInit;
         images = Object.create(null);
         loadImages();
 
     };
+
+    function loadUi(){
+        var img  = new createjs.Bitmap(preload.getResult(images["uiMain"]));
+        img.x = 1;
+        img.y = 512;
+        uiContainer.addChild(img);
+        var uiButton = new createjs.Bitmap(preload.getResult(images["arrowTowerUi"]));
+        uiButton.x = 128;
+        uiButton.y = 580;
+        uiButton.on("click" , controller.start.uiLocal.build);
+        uiContainer.addChild(uiButton);
+
+
+    }
+
 
     var loadImages = function loadImages(){
         preload =  new createjs.LoadQueue();
@@ -40,8 +60,10 @@ var images;
             {src : 'images/canBuild.png' , id : 'canBuild'},
             {src : 'images/cantBuild.png' , id : 'cantBuild'},
             {src : 'images/arrowTower.png' , id : 'arrowTower'},
+            {src : 'images/arrowTowerUi.png' , id : 'arrowTowerUi'},
             {src : 'images/fireTower.png' , id : 'fireTower'},
-            {src : 'images/poisonTower.png' , id : 'poisonTower'}
+            {src : 'images/poisonTower.png' , id : 'poisonTower'},
+            {src : 'images/ui.png' , id : 'uiMain'}
         ];
         preload.addEventListener("fileload" , handleFileLoad);
         preload.addEventListener("complete" , loadGraphics);
@@ -67,6 +89,7 @@ var images;
                 loadTower(i,j);
             }
         }
+        loadUi();
         /** TEST STUFF
 
                 if(gameWorld[i][j].canBuildTower === true){
@@ -101,12 +124,15 @@ var images;
         var locX, locY;
         locX =  Math.round((32 * x) + 1);
         locY = Math.round((32 * y) + 1);
-        if(gameWorld[x][y].tower === "arrowTower"){
-            img  = new createjs.Bitmap(preload.getResult(images["arrowTower"]));
-            img.x = Math.round(locX);
-            img.y = Math.round(locY);
-            stage.addChild(img);
+        try {
+            if (gameWorld[x][y].drawTower === "arrowTower") {
+                img = new createjs.Bitmap(preload.getResult(images["arrowTower"]));
+                img.x = Math.round(locX);
+                img.y = Math.round(locY);
+                stage.addChild(img);
+            }
         }
+        catch(e){}
     }
 
     function loadTile(x,y){

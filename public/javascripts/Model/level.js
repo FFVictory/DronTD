@@ -21,12 +21,14 @@ level = (function(){
         }
     }
 
+
+    //this needs to be refactored
     function createGameWorld(stageInit){
-        gameWorld = new Array(15);
+        gameWorld = new Array(32);
         var i = 0;
         stage = stageInit;
         for(i ; i<gameWorld.length ; i++){
-            gameWorld[i] = new Array(10);
+            gameWorld[i] = new Array(16);
             for(var j = 0 ; j< gameWorld[i].length ; j++){
                 gameWorld[i][j] = Object.create(null); //Might add prototype inheritence
                 gameWorld[i][j].type = "highGround";
