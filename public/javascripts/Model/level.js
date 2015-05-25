@@ -45,6 +45,7 @@ level = (function(){
         }
     }
 
+    //x , y - znachenie v massivah. Ne pixeli kr4.
     function addTower(x , y , towerType){
        var towerFactory = new TowerFactory();
        var tower = towerFactory.createTower({

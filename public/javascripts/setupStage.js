@@ -15,6 +15,7 @@ var setupStage = (function(){
         stage.snapToPixelEnabled = true;
         canvasContext = canvas.getContext('2d');
 
+
         return {
             stage : stage,
             uiStage : uiStage

@@ -5,6 +5,7 @@ var Ui = function(){
     var buttons = [];
     var buildMode = 0 ;
     var previous;
+    var selected;
     var assetManagementLocal = assetManagement.start; //move this to init mb
 
     var init = function (){
@@ -26,6 +27,8 @@ var Ui = function(){
 
 
     };
+
+
 
 
     var tileMouse = function(stage){

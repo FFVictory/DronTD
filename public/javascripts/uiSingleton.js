@@ -4,13 +4,14 @@
 var UiSingleton = (function(){
     var instance;
     function createInstance(){
-        instance = new Ui();
+        var object =  new Ui();
+        return object;
     }
 
     return {
         getInstance : function(){
             if(!instance){
-                createInstance();
+                instance = createInstance();
             }
             return instance;
         }

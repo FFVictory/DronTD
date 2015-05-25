@@ -36,7 +36,10 @@ var uiButtons;
 
     };
 
+
+
     function loadUi(){
+        var uiLocal = UiSingleton.getInstance();
         var img  = new createjs.Bitmap(preload.getResult(images["uiMain"]));
         img.x = 1;
         img.y = 512;
@@ -44,9 +47,9 @@ var uiButtons;
         var uiButton = new createjs.Bitmap(preload.getResult(images["arrowTowerUi"]));
         uiButton.x = 128;
         uiButton.y = 580;
-        //uiButton.on("click" , controller.start.uiLocal.build);
+        uiButton.name = "arrowTower";
+        uiButton.on("click" , uiLocal.toggleBuildMode);
         uiContainer.addChild(uiButton);
-
 
     }
 
@@ -132,7 +135,9 @@ var uiButtons;
                 stage.addChild(img);
             }
         }
-        catch(e){}
+        catch(e){
+            alert("Exception : assetManagement.loadTower" + e);
+        }
     }
 
     function loadTile(x,y){
@@ -151,6 +156,7 @@ var uiButtons;
         locY = Math.round((32 * y) + 1);
         img.x = locX;
         img.y = locY;
+        //img.on("click" , UiSingleton.getInstance().toggleBuildMode);
         stage.getChildByName("tileHolder").addChild(img);
         //more cases to be added
 
@@ -220,8 +226,10 @@ var uiButtons;
     return {
         showBuildableGrid : showBuildableGrid,
         load : load,
+        loadTower : loadTower,
         highlightTile : highlightTile,
         unloadImage : unloadImage,
+        uiButtons : uiButtons,
         hideBuildableGrid : hideBuildableGrid
     }
 

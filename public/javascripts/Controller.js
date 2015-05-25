@@ -21,11 +21,26 @@ controller.start = (function(){
         gameWorld = new level.initialize(stage).gameWorld;
         assetManagementLocal = assetManagement.start;
         assetManagementLocal.load(stage,gameWorld);
+        stage.getChildByName("buildCursor").on("click" , handleClick);
         level.addTower(2,2,"arrowTower");
 
     });
 
+    var handleClick = function(event){
+        var x;
+        var y;
+        //the code below will build towers if you are in the build mode.
+        if(uiLocal.buildMode == 1){ // instead of 1 uiLocal.buildMode
+            x = Math.floor(event.stageX / 32);
+            y = Math.floor(event.stageY / 32);
+            if ((gameWorld[x][y].canBuildTower === true) && (gameWorld[x + 1][y].canBuildTower === true) && (gameWorld[x][y + 1].canBuildTower === true) && (gameWorld[x + 1][y + 1].canBuildTower === true)) {
 
+                level.addTower(x, y, "arrowTower");// WARNING : HARDCODE
+                assetManagementLocal.loadTower(x, y);
+            }
+        }
+
+    };
     var fake = function(){
         var level = new Array(10);
         var i = 0;
@@ -43,7 +58,7 @@ controller.start = (function(){
 
         if(uiLocal.buildMode===1)
         {
-            uiLocal.tileMouse();
+            uiLocal.tileMouse(stage);
         }
 
         stage.update();
