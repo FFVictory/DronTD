@@ -44,7 +44,7 @@ var uiButtons;
         var uiButton = new createjs.Bitmap(preload.getResult(images["arrowTowerUi"]));
         uiButton.x = 128;
         uiButton.y = 580;
-        uiButton.on("click" , controller.start.uiLocal.build);
+        //uiButton.on("click" , controller.start.uiLocal.build);
         uiContainer.addChild(uiButton);
 
 

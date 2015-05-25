@@ -17,7 +17,7 @@ controller.start = (function(){
 
         stage = setupStage.canvasInit().stage;
         setupStage.ticker();
-        uiLocal = new Ui();
+        uiLocal = UiSingleton.getInstance();
         gameWorld = new level.initialize(stage).gameWorld;
         assetManagementLocal = assetManagement.start;
         assetManagementLocal.load(stage,gameWorld);
