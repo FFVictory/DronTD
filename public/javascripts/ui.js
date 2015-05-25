@@ -3,27 +3,32 @@
  */
 var Ui = function(){
     var buttons = [];
-    var buildMode = 0;
+    var buildMode = 0 ;
+    var previous;
     var assetManagementLocal = assetManagement.start; //move this to init mb
 
     var init = function (){
-        alert("yo");
-        buildMode = 1;
-        assetManagementLocal.showBuildableGrid();
+
     };
-    var build = function (){
-        buildMode = 1;
-        assetManagementLocal.showBuildableGrid();
+
+    //this is called by an event listener so things are not so simple as it seems.
+
+    var toggleBuildMode = function(){
+        console.log(this);
+        if(UiSingleton.getInstance().buildMode === 0) {
+            UiSingleton.getInstance().buildMode= 1;
+            assetManagementLocal.showBuildableGrid();
+        }
+        else if(UiSingleton.getInstance().buildMode === 1){
+            UiSingleton.getInstance().buildMode= 0;
+            assetManagementLocal.hideBuildableGrid();
+        }
+
+
     };
 
 
-    var unBuild  = function(){
-        buildMode = 0;
-        assetManagementLocal = assetManagement.start;
-        assetManagementLocal.hideBuildableGrid();
-    };
-
-    var tileMouse = function(){
+    var tileMouse = function(stage){
         for(var i =0 ; i< stage.getChildByName("tileHolder").children.length ; i++){
             var currentChild = stage.getChildByName("tileHolder").children[i] ;
             var pt = currentChild.globalToLocal(stage.mouseX , stage.mouseY);
@@ -43,8 +48,8 @@ var Ui = function(){
 
     return {
         init : init,
-        build : build,
-        unBuild : unBuild,
+        buildMode : buildMode,
+        toggleBuildMode : toggleBuildMode,
         tileMouse : tileMouse
     };
 
