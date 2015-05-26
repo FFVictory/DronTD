@@ -8,6 +8,7 @@ level = (function(){
     var gameWorld;
     var assetManagementLocal;
     var towers = [];
+    var currentLevel;
     //This function accepts an integer representing the level to be loaded.
     // It should modify the level array accordingly.
     // And maybe do the asset managment.
@@ -46,23 +47,26 @@ level = (function(){
     }
 
     //x , y - znachenie v massivah. Ne pixeli kr4.
-    function addTower(x , y , towerType){
-       var towerFactory = new TowerFactory();
-       var tower = towerFactory.createTower({
-          towerType : towerType
-       });
+    function addTower(x , y , towerType) {
+        var towerFactory = new TowerFactory();
+        var canBuild;
+        var tower = towerFactory.createTower({
+            towerType: towerType
+        });
         towers.push(tower);
-       console.log( tower instanceof ArrowTower );
-        console.log(tower);
-       gameWorld[x][y].tower = tower;
-       gameWorld[x][y].drawTower = towerType;
-       gameWorld[x+1][y+1].tower = tower;
-       gameWorld[x+1][y].tower = tower;
-       gameWorld[x][y+1].tower = tower;
-       gameWorld[x][y].canBuildTower = false;
-       gameWorld[x+1][y+1].canBuildTower = false;
-       gameWorld[x][y+1].canBuildTower = false;
-       gameWorld[x+1][y].canBuildTower = false;
+        canBuild = PlayerSingleton.getInstance().deductGold(tower.cost);
+        stage.getChildByName("uiContainer").getChildByName("playerGold").text= PlayerSingleton.getInstance().gold;
+        if (canBuild === true) {
+            gameWorld[x][y].tower = tower;
+            gameWorld[x][y].drawTower = towerType;
+            gameWorld[x + 1][y + 1].tower = tower;
+            gameWorld[x + 1][y].tower = tower;
+            gameWorld[x][y + 1].tower = tower;
+            gameWorld[x][y].canBuildTower = false;
+            gameWorld[x + 1][y + 1].canBuildTower = false;
+            gameWorld[x][y + 1].canBuildTower = false;
+            gameWorld[x + 1][y].canBuildTower = false;
+        }
     }
 
     return {

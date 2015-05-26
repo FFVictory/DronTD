@@ -12,11 +12,13 @@ controller.start = (function(){
     var assetManagementLocal;
     var uiSingleton;
     var uiLocal;
+    var player;
     var previous; //refactor mb
     $(document).ready(function(){
 
         stage = setupStage.canvasInit().stage;
         setupStage.ticker();
+        player = PlayerSingleton.getInstance();
         uiLocal = UiSingleton.getInstance();
         gameWorld = new level.initialize(stage).gameWorld;
         assetManagementLocal = assetManagement.start;

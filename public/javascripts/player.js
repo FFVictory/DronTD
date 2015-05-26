@@ -11,7 +11,12 @@ var Player = function(){
     };
 
     var deductGold = function (amount){
+        if(this.gold < amount){
+            console.log("Insufficient gold , can't build");
+            return false;
+        }
         this.gold = this.gold - amount;
+        return true;
     };
 
     var grantGold = function(amount){

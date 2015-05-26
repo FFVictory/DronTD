@@ -25,7 +25,7 @@ var uiButtons;
         tileHolder.name = "tileHolder";
         buildableGrid.name = "buildableGrid";
         buildCursor.name = "buildCursor";
-        uiContainer.name = "uiContinaer";
+        uiContainer.name = "uiContainer";
         stage.addChild(tileHolder);
         stage.addChild(buildableGrid);
         stage.addChild(buildCursor);
@@ -45,16 +45,17 @@ var uiButtons;
         img.y = 512;
         uiContainer.addChild(img);
         var uiButton = new createjs.Bitmap(preload.getResult(images["arrowTowerUi"]));
-        uiButton.x = 128;
+        uiButton.x = 78;
         uiButton.y = 580;
         uiButton.name = "arrowTower";
         uiButton.on("click" , function(){
             uiLocal.toggleBuildMode("arrowTower");
         });
+
         uiContainer.addChild(uiButton);
 
         var fireButton = new createjs.Bitmap(preload.getResult(images["fireTowerUi"]));
-        fireButton.x = 228;
+        fireButton.x = 178;
         fireButton.y = 580;
         fireButton.name = "fireTower";
         fireButton.on("click" , function(){
@@ -63,13 +64,24 @@ var uiButtons;
         uiContainer.addChild(fireButton);
 
         var poisonTower = new createjs.Bitmap(preload.getResult(images["poisonTowerUi"]));
-        poisonTower.x = 328;
+        poisonTower.x = 278;
         poisonTower.y = 580;
         poisonTower.name = "poisonTower";
         poisonTower.on("click" , function(){
             uiLocal.toggleBuildMode("poisonTower");
         });
         uiContainer.addChild(poisonTower);
+
+        var goldIcon = new createjs.Bitmap(preload.getResult(images["goldIcon"]));
+        goldIcon.x = 429 ;
+        goldIcon.y = 507;
+        uiContainer.addChild(goldIcon);
+
+        var text = new createjs.Text(PlayerSingleton.getInstance().gold , "48px Arial", "#FFFFFF");
+        text.x = 477;
+        text.y = 507;
+        text.name = "playerGold";
+        uiContainer.addChild(text);
 
     }
 
@@ -88,6 +100,7 @@ var uiButtons;
             {src : 'images/fireTowerUi.png' , id : 'fireTowerUi'},
             {src : 'images/poisonTower.png' , id : 'poisonTower'},
             {src : 'images/poisonTowerUi.png' , id : 'poisonTowerUi'},
+            {src : 'images/gold.png' , id : 'goldIcon'},
             {src : 'images/ui.png' , id : 'uiMain'}
         ];
         preload.addEventListener("fileload" , handleFileLoad);
