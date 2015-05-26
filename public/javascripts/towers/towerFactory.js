@@ -5,22 +5,26 @@
 //This is the skeleton , which should be extended
 function TowerFactory() {
 
-
-    TowerFactory.prototype.towerType = ArrowTower;
-    TowerFactory.prototype.createTower = function (options) {
+    this.createTower = function (options) {
+        var tower;
         switch (options.towerType) {
             case "fireTower" :
-                this.towerType = FireTower;
+                tower = new FireTower(options);
                 break;
             case "arrowTower" :
-                this.towerType = ArrowTower;
+                tower = new ArrowTower(options);
                 break;
             case "poisonTower" :
-                this.towerType = PoisonTower;
+                tower = new PoisonTower(options);
                 break;
         }
-        return new this.towerType(options);
+
+        tower.testHujni = function(){
+            alert("vse zbs teperj");
+        };
+
+        return tower;
     }
-};
+}
 
 
