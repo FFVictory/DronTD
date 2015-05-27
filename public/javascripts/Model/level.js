@@ -1,19 +1,21 @@
 /**
  * Created by Drew on 14/05/2015.
  */
-var level = {};
 
-level = (function(){
+
+Level = function(){
     var stage;
-    var gameWorld;
+    var gameWorld = new Array(32);
     var assetManagementLocal;
     var towers = [];
     var currentLevel;
+    var enemies = [];
     //This function accepts an integer representing the level to be loaded.
     // It should modify the level array accordingly.
     // And maybe do the asset managment.
 
     function initialize(stageInit){
+        assetManagementLocal = assetManagement.start;
         createGameWorld(stageInit);
         changeLevel(1);
 
@@ -22,10 +24,27 @@ level = (function(){
         }
     }
 
+    function createEnemies(){
+        var enemyFactory = new EnemyFactory();
+        var enemy =  enemyFactory.createEnemy({
+            enemyType : "heroEnemy"
+        });
+        enemyBitmap = assetManagementLocal.loadEnemy();
+        enemy.setSprite(enemyBitmap);
+        enemies.push(enemy);
+
+    }
+
+    function enemyReachedGoal(enemyToRemove){
+        stage.getChildByName("enemyContainer").removeChild(enemyToRemove.sprite);
+        this.enemies = this.enemies.filter(function(obj) {
+            return obj != enemyToRemove;
+        });
+    }
 
     //this needs to be refactored
     function createGameWorld(stageInit){
-        gameWorld = new Array(32);
+
         var i = 0;
         stage = stageInit;
         for(i ; i<gameWorld.length ; i++){
@@ -39,10 +58,61 @@ level = (function(){
     }
     function changeLevel(levelNumber){
         if(levelNumber == 1){
-            for(var j = 0 ; j<gameWorld[0].length ; j++){
-                gameWorld[5][j].type = "lowGround";
-                gameWorld[5][j].canBuildTower = false;
+            gameWorld[3][0].type = "lowGround";
+            gameWorld[4][0].type = "lowGround";
+            gameWorld[3][0].canBuildTower = false;
+            gameWorld[4][0].canBuildTower = false;
+            gameWorld[4][1].type = "lowGround";
+            gameWorld[4][1].canBuildTower = false;
+            gameWorld[3][1].type = "lowGround";
+            gameWorld[3][1].canBuildTower = false;
+            for(var i = 3 ; i < 30 ; i++){
+                gameWorld[i][2].type = "lowGround";
+                gameWorld[i][2].canBuildTower = false;
+                gameWorld[i][3].type = "lowGround";
+                gameWorld[i][3].canBuildTower = false;
+
             }
+            for(i = 3 ; i < 14 ; i++) {
+                gameWorld[29][i].type = "lowGround";
+                gameWorld[29][i].canBuildTower = false;
+                gameWorld[28][i].type = "lowGround";
+                gameWorld[28][i].canBuildTower = false;
+            }
+            for(i = 29 ; i > 23 ; i--) {
+                gameWorld[i][13].type = "lowGround";
+                gameWorld[i][13].canBuildTower = false;
+                gameWorld[i][12].type = "lowGround";
+                gameWorld[i][12].canBuildTower = false;
+            }
+
+            for(i = 13 ; i > 7 ; i--) {
+                gameWorld[23][i].type = "lowGround";
+                gameWorld[23][i].canBuildTower = false;
+                gameWorld[22][i].type = "lowGround";
+                gameWorld[22][i].canBuildTower = false;
+            }
+            for(i = 23 ; i > 8 ; i--){
+                gameWorld[i][8].type = "lowGround";
+                gameWorld[i][8].canBuildTower = false;
+                gameWorld[i][9].type = "lowGround";
+                gameWorld[i][9].canBuildTower = false;
+
+            }
+            for(i = 9 ; i != 16 ; i++) {
+                gameWorld[9][i].type = "lowGround";
+                gameWorld[9][i].canBuildTower = false;
+                gameWorld[10][i].type = "lowGround";
+                gameWorld[10][i].canBuildTower = false;
+            }
+            gameWorld[4][0].type = "lowGround";
+            gameWorld[3][0].canBuildTower = false;
+            gameWorld[4][0].type = "lowGround";
+            gameWorld[3][0].canBuildTower = false;
+            gameWorld[4][0].type = "lowGround";
+            gameWorld[3][0].canBuildTower = false;
+
+
         }
     }
 
@@ -71,6 +141,10 @@ level = (function(){
 
     return {
         initialize : initialize,
-        addTower : addTower
+        addTower : addTower,
+        gameWorld : gameWorld,
+        enemies : enemies,
+        enemyReachedGoal : enemyReachedGoal,
+        createEnemies : createEnemies //eto vremenno pohodu
     }
-}());
+};

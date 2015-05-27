@@ -13,17 +13,21 @@ controller.start = (function(){
     var uiSingleton;
     var uiLocal;
     var player;
+    var level;
+    var enemyCounterDelay = 0 ;
+    var canSpawn = false;
     var previous; //refactor mb
     $(document).ready(function(){
 
         stage = setupStage.canvasInit().stage;
-        setupStage.ticker();
         player = PlayerSingleton.getInstance();
         uiLocal = UiSingleton.getInstance();
-        gameWorld = new level.initialize(stage).gameWorld;
+        level = LevelSingleton.getInstance();
+        gameWorld = level.initialize(stage).gameWorld;
         assetManagementLocal = assetManagement.start;
         assetManagementLocal.load(stage,gameWorld);
         stage.getChildByName("buildCursor").on("click" , handleClick);
+        setupStage.ticker();
 
     });
 
@@ -36,7 +40,7 @@ controller.start = (function(){
             y = Math.floor(event.stageY / 32);
             if ((gameWorld[x][y].canBuildTower === true) && (gameWorld[x + 1][y].canBuildTower === true) && (gameWorld[x][y + 1].canBuildTower === true) && (gameWorld[x + 1][y + 1].canBuildTower === true)) {
                 if(uiLocal.selected) {
-                    level.addTower(x, y, uiLocal.selected);// WARNING : HARDCODE
+                    level.addTower(x, y, uiLocal.selected);// WARNING : HARDCODE or not?
                     assetManagementLocal.loadTower(x, y);
                 }
             }
@@ -57,16 +61,26 @@ controller.start = (function(){
 
 
     var tick =  function(event){
+            enemyCounterDelay ++ ;
+            if((enemyCounterDelay % 50 === 0 ) && (controller.start.canSpawn === true) && (enemyCounterDelay <= 50)){
+
+                level.createEnemies();
+            }
+
 
         if(uiLocal.buildMode===1)
         {
             uiLocal.tileMouse(stage);
         }
-
+        var enemies  = level.enemies;
+        for(var i = 0 ; i < enemies.length; i++){
+            enemies[i].turn();
+        }
         stage.update();
     };
 
     return {
+        canSpawn : canSpawn,
         tick : tick
 
     };

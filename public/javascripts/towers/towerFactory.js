@@ -19,9 +19,6 @@ function TowerFactory() {
                 break;
         }
 
-        tower.testHujni = function(){
-            alert("vse zbs teperj");
-        };
 
         return tower;
     }

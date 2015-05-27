@@ -10,10 +10,14 @@ var buildableGrid; //contains the transparent green to highlight the whole field
 var buildCursor;
 var preload;
 var uiContainer;
+var enemyContainer;
 var gameWorld;
 var highGround;
+var level;
 var images;
 var uiButtons;
+var enemySpriteSheet;
+var enemySpriteSheetFlipped;
 
 
     var load = function(stageInit,levelInit){
@@ -22,15 +26,19 @@ var uiButtons;
         buildableGrid = new createjs.Container();
         buildCursor= new createjs.Container();
         uiContainer = new createjs.Container();
+        enemyContainer = new createjs.Container();
         tileHolder.name = "tileHolder";
         buildableGrid.name = "buildableGrid";
         buildCursor.name = "buildCursor";
         uiContainer.name = "uiContainer";
+        enemyContainer.name = "enemyContainer";
         stage.addChild(tileHolder);
         stage.addChild(buildableGrid);
         stage.addChild(buildCursor);
         stage.addChild(uiContainer);
+        stage.addChild(enemyContainer);
         gameWorld = levelInit;
+        level = LevelSingleton.getInstance();
         images = Object.create(null);
         loadImages();
 
@@ -101,6 +109,9 @@ var uiButtons;
             {src : 'images/poisonTower.png' , id : 'poisonTower'},
             {src : 'images/poisonTowerUi.png' , id : 'poisonTowerUi'},
             {src : 'images/gold.png' , id : 'goldIcon'},
+            {src : 'images/heroSpriteSheet.png' , id : 'heroSpriteSheet'},
+            {src : 'images/heroSpriteSheetFlipped.png' , id : 'heroSpriteSheetFlipped'},
+            {src : 'images/test.png' , id : 'test'},
             {src : 'images/ui.png' , id : 'uiMain'}
         ];
         preload.addEventListener("fileload" , handleFileLoad);
@@ -128,7 +139,41 @@ var uiButtons;
             }
         }
         loadUi();
+
+
+        //TEST STUFF
+
+        enemySpriteSheet =  new createjs.SpriteSheet({
+            "images" : [preload.getResult("heroSpriteSheet")],
+            "animations" : {
+                "dead" : [0,7,"dead",0.5],
+                "run" : [8,22,"run",0.5]
+            },
+            "frames" : {
+                x : 64 ,y :64,height : 64 , width : 64, spacing : 0, margin : 0,
+                count : 23 , regX : 0 , regY : 0
+            }
+        });
+
+        enemySpriteSheetFlipped =  new createjs.SpriteSheet({
+            "images" : [preload.getResult("heroSpriteSheetFlipped")],
+            "animations" : {
+                "dead" : [0,7,"dead",0.5],
+                "run" : [8,21,"run",0.5]
+            },
+            "frames" : {
+                x : 64 ,y :64,height : 64 , width : 64, spacing : 0, margin : 0,
+                count : 23 , regX : 0 , regY : 0
+            }
+        });
+
+        controller.start.canSpawn = true;
+
+
+
         /** TEST STUFF
+
+
 
                 if(gameWorld[i][j].canBuildTower === true){
                     var img  = new createjs.Bitmap(preload.getResult(images["canBuild"]));
@@ -271,10 +316,39 @@ var uiButtons;
 
     }
 
+    function loadEnemy(){
+        var heroAnimation = new createjs.BitmapAnimation(enemySpriteSheet);
+        heroAnimation.gotoAndPlay("run");
+        heroAnimation.name = "hero";
+        heroAnimation.x = 96;
+        heroAnimation.y = 0;
+        heroAnimation.direction = 90;
+
+        enemyContainer.addChild(heroAnimation);
+
+        return heroAnimation;
+
+    }
+
+    function loadFlippedEnemy(x,y , animationToRemove){
+        enemyContainer.removeChild(animationToRemove);
+        var heroAnimation = new createjs.BitmapAnimation(enemySpriteSheetFlipped);
+        heroAnimation.gotoAndPlay("run");
+        heroAnimation.name = "hero";
+        heroAnimation.direction = -90;
+
+        heroAnimation.x = x;
+        heroAnimation.y = y;
+        enemyContainer.addChild(heroAnimation);
+
+        return heroAnimation;
+    }
     return {
         showBuildableGrid : showBuildableGrid,
         load : load,
         loadTower : loadTower,
+        loadEnemy : loadEnemy,
+        loadFlippedEnemy : loadFlippedEnemy,
         highlightTile : highlightTile,
         unloadImage : unloadImage,
         uiButtons : uiButtons,
