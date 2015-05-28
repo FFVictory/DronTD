@@ -11,18 +11,20 @@ function EnemyFactory() {
                 break;
         }
         enemy.sprite = "undefined";
+        enemy.deadSprite = "undefined";
         enemy.previous = [];
         enemy.previous[0]= -64;
         enemy.previous[1]= -64;
         enemy.targetX = 96;
         enemy.targetY = 0;
+        enemy.deathDelay = 0;
         enemy.tempTest = function () {
             //alert("is this an instance of hero enemy? : " + (enemy instanceof HeroEnemy));
         };
 
-        enemy.setSprite = function (bitmap) {
+        enemy.setSprite = function (bitmap ,deadBitmap) {
             enemy.sprite = bitmap;
-
+            enemy.deadSprite = deadBitmap;
         };
 
         enemy.checkSurroundings = function (currPixX, currPixY) {
@@ -114,6 +116,17 @@ function EnemyFactory() {
         };
 
         enemy.turn = function () {
+            if(enemy.health <= 0 ){
+                enemy.sprite = assetManagement.start.changeAnimationForEnemy(enemy.sprite,enemy.deadSprite);
+                if(enemy.sprite == enemy.deadSprite){
+                    enemy.deathDelay++;
+                    if(enemy.deathDelay % 14 === 0 ){
+                        LevelSingleton.getInstance().enemyReachedGoal(enemy);
+
+                    }
+                }
+            }
+
             if (!enemy.targetX || !enemy.targetY) {
                 var result = enemy.checkSurroundings(enemy.sprite.x,enemy.sprite.y);
                 //console.log(result);
@@ -133,8 +146,9 @@ function EnemyFactory() {
                 else if((enemy.targetX < enemy.sprite.x) ||(enemy.targetY < enemy.sprite.y) ) {
                     if (enemy.targetX < enemy.sprite.x) {
                         if(enemy.sprite.direction === 90) {
-                            enemy.sprite = assetManagement.start.loadFlippedEnemy(enemy.sprite.x ,enemy.sprite.y ,enemy.sprite);
-
+                            var newSprites= assetManagement.start.loadFlippedEnemy(enemy.sprite.x ,enemy.sprite.y ,enemy.sprite ,enemy.deadSprite);
+                            enemy.sprite = newSprites.heroAnimation;
+                            enemy.deadSprite = newSprites.deadAnimation;
                         }
                             enemy.sprite.x = enemy.sprite.x - 1;
                     }
@@ -146,7 +160,6 @@ function EnemyFactory() {
                     enemy.targetX = 0;
                     enemy.targetY = 0;
                 }
-                //hardcoded
                 if((enemy.sprite.x === 288) && (enemy.sprite.y === 384)){
                     enemy.targetY = 448;
                     enemy.targetX = enemy.sprite.X;

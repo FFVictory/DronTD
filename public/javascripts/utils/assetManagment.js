@@ -18,6 +18,7 @@ var level;
 var images;
 var uiButtons;
 var enemySpriteSheet;
+var enemySpriteSheetDie;
 var enemySpriteSheetFlipped;
 
 
@@ -150,19 +151,30 @@ var enemySpriteSheetFlipped;
         enemySpriteSheet =  new createjs.SpriteSheet({
             "images" : [preload.getResult("heroSpriteSheet")],
             "animations" : {
-                "dead" : [0,7,"dead",0.5],
-                "run" : [8,22,"run",0.5]
+                "dead" : [0,6, false , 0.5],
+                "run" : [ 8,22 , "run" , 0.5]
             },
             "frames" : {
                 x : 64 ,y :64,height : 64 , width : 64, spacing : 0, margin : 0,
                 count : 23 , regX : 0 , regY : 0
             }
         });
+/*
+        enemySpriteSheetDie =  new createjs.SpriteSheet({
+            "images" : [preload.getResult("heroSpriteSheet")],
+            "animations" : {
 
+            },
+            "frames" : {
+                x : 64 ,y :64,height : 64 , width : 64, spacing : 0, margin : 0,
+                count : 23 , regX : 0 , regY : 0
+            }
+        });
+  */
         enemySpriteSheetFlipped =  new createjs.SpriteSheet({
             "images" : [preload.getResult("heroSpriteSheetFlipped")],
             "animations" : {
-                "dead" : [0,7,"dead",0.5],
+                "dead" : [1,6 , false,0.5],
                 "run" : [8,21,"run",0.5]
             },
             "frames" : {
@@ -322,21 +334,38 @@ var enemySpriteSheetFlipped;
     }
 
     function loadEnemy(){
-        var heroAnimation = new createjs.BitmapAnimation(enemySpriteSheet);
-        heroAnimation.gotoAndPlay("run");
+        var heroAnimation = new createjs.Sprite(enemySpriteSheet,"run");
+        heroAnimation.play();
         heroAnimation.name = "hero";
         heroAnimation.x = 96;
         heroAnimation.y = 0;
         heroAnimation.direction = 90;
+        var deadAnimation= new createjs.Sprite(enemySpriteSheet,"dead");
+        deadAnimation.name = "dead";
+        deadAnimation.direction = 90;
 
         enemyContainer.addChild(heroAnimation);
 
-        return heroAnimation;
+        return {
+            heroAnimation : heroAnimation,
+            deadAnimation : deadAnimation
+        };
 
     }
 
-    function loadFlippedEnemy(x,y , animationToRemove){
+    function changeAnimationForEnemy(runAnimation , deadAnimation){
+        deadAnimation.x = runAnimation.x;
+        deadAnimation.y = runAnimation.y;
+        enemyContainer.removeChild(runAnimation);
+        deadAnimation.play();
+
+        enemyContainer.addChild(deadAnimation);
+        return deadAnimation;
+    }
+
+    function loadFlippedEnemy(x,y , animationToRemove ,deadAnimationToRemove){
         enemyContainer.removeChild(animationToRemove);
+        enemyContainer.removeChild(deadAnimationToRemove);
         var heroAnimation = new createjs.BitmapAnimation(enemySpriteSheetFlipped);
         heroAnimation.gotoAndPlay("run");
         heroAnimation.name = "hero";
@@ -346,13 +375,21 @@ var enemySpriteSheetFlipped;
         heroAnimation.y = y;
         enemyContainer.addChild(heroAnimation);
 
-        return heroAnimation;
+        var deadAnimation= new createjs.Sprite(enemySpriteSheetFlipped,"dead");
+        deadAnimation.name = "dead";
+        deadAnimation.direction = -90;
+
+        return {
+            heroAnimation :heroAnimation,
+            deadAnimation : deadAnimation
+        };
     }
     return {
         showBuildableGrid : showBuildableGrid,
         load : load,
         loadTower : loadTower,
         loadEnemy : loadEnemy,
+        changeAnimationForEnemy : changeAnimationForEnemy,
         loadFlippedEnemy : loadFlippedEnemy,
         highlightTile : highlightTile,
         unloadImage : unloadImage,

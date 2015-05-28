@@ -53,8 +53,10 @@ function TowerFactory() {
                 //if((obj.sprite.x < enemies.sprite.x) && (obj.sprite.y )
             });
             var enemy = tower.reachableEnemies[0];
-            if(enemy){
-                tower.dealDamage(enemy);
+            if(enemy) {
+                if (enemy.health > 0) {
+                    tower.dealDamage(enemy);
+                }
             }
         };
 

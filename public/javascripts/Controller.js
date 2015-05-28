@@ -64,7 +64,7 @@ controller.start = (function(){
 
     var tick =  function(event){
         enemyCounterDelay ++ ;
-        if((enemyCounterDelay % 50 === 0 ) && (controller.start.canSpawn === true) && (enemyCounterDelay <= 500)){
+        if((enemyCounterDelay % 50 === 0 ) && (controller.start.canSpawn === true) && (enemyCounterDelay <= 150)){
             level.createEnemies();
         }
 

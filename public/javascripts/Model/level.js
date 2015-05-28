@@ -29,8 +29,11 @@ Level = function(){
         var enemy =  enemyFactory.createEnemy({
             enemyType : "heroEnemy"
         });
-        enemyBitmap = assetManagementLocal.loadEnemy();
-        enemy.setSprite(enemyBitmap);
+        var sprites =assetManagementLocal.loadEnemy();
+        var runAnimation = sprites.heroAnimation;
+        var deadAnimation = sprites.deadAnimation;
+        enemy.setSprite(runAnimation,deadAnimation);
+
         enemies.push(enemy);
 
     }
