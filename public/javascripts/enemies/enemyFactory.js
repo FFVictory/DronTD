@@ -114,8 +114,12 @@ function EnemyFactory() {
         };
         enemy.takeDamage = function(damage){
             console.log("before deduction  :  " + enemy.health);
-          enemy.health = enemy.health - damage;
+            if(enemy.health > 0) {
+                enemy.health = enemy.health - damage;
+            }
             console.log("after deduction  :  " + enemy.health);
+
+
         };
 
         enemy.die = function(){

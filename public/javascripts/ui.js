@@ -42,6 +42,9 @@ var Ui = function(){
 
     var updateLives = function(){
         var player = PlayerSingleton.getInstance();
+        var stage = AssetManagementSingleton.getInstance().getStage();
+        stage.getChildByName("uiContainer").getChildByName("playerLives").text= ("Lives Left : "  +player.lives);
+
         console.log("PLayer lives : " + player.lives );
 
 

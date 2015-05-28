@@ -18,11 +18,12 @@ function TowerFactory() {
                 tower = new PoisonTower(options);
                 break;
         }
-        tower.turnDelay = 0;
+        tower.turnDelay = 99;
         tower.sprite = "undefined";
         tower.level = LevelSingleton.getInstance();
         tower.enemies = tower.level.enemies;
         tower.reachableEnemies =[];
+
 
         tower.calcRanges = function(){
             var spriteX = tower.sprite.x;
@@ -38,12 +39,20 @@ function TowerFactory() {
             tower.sprite = sprite;
         };
 
+        tower.enemyHit = function(enemy){
+            enemy.takeDamage(tower.damage);
+        };
         tower.dealDamage = function(enemy){
             if(enemy.ready === true) {
+                var assetManagementLocal = AssetManagementSingleton.getInstance();
+                var projectileSprite = assetManagementLocal.loadProjectile();
+                var projectile = new Projectiles(enemy,tower.sprite.x , tower.sprite.y ,projectileSprite,tower).selfReference;
+                LevelSingleton.getInstance().projectiles.push(projectile);
+                console.log("projetile product : " + projectile);
                 console.log("Current target : " + tower.reachableEnemies[0]);
                 console.log("target . x : " + tower.reachableEnemies[0].sprite.x);
                 console.log("target . y : " + tower.reachableEnemies[0].sprite.y);
-                enemy.takeDamage(tower.damage);
+
             }
             else{
                 console.log("not ready");
@@ -54,11 +63,9 @@ function TowerFactory() {
             tower.enemies = tower.level.enemies;
             tower.enemies = tower.enemies.filter(function(obj){
                if(obj.ready === false){
-                   console.log("popalasj suka");
                    return false;
                }
                else{
-                   console.log("nepopalasj suka");
                    return true;
                }
             });
@@ -76,9 +83,7 @@ function TowerFactory() {
                 if (enemy.health > 0) {
                     tower.dealDamage(enemy);
                 }
-                if(enemy.health <= 0){
-                    enemy.die();
-                }
+
             }
         };
 

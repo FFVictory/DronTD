@@ -90,6 +90,13 @@ controller.start = (function(){
                 towers[i].turn();
             }
         }
+
+        var projectiles = level.projectiles;
+        for(i =0 ; i< projectiles.length ; i++){
+
+            projectiles[i].turn();
+
+        }
         stage.update();
     };
 

@@ -13,6 +13,7 @@ var uiContainer;
 var enemyContainer;
 var towerContainer;
 var middleUiContainer;
+var bulletsContainer;
 var gameWorld;
 var highGround;
 var level;
@@ -36,13 +37,15 @@ var middleUiTexts = [];
         enemyContainer = new createjs.Container();
         towerContainer = new createjs.Container();
         middleUiContainer = new createjs.Container();
+        bulletsContainer = new createjs.Container();
         tileHolder.name = "tileHolder";
         towerContainer.name = "towerContainer";
         buildableGrid.name = "buildableGrid";
         buildCursor.name = "buildCursor";
         uiContainer.name = "uiContainer";
         enemyContainer.name = "enemyContainer";
-        middleUiContainer.name = "enemyContainer";
+        middleUiContainer.name = "middleUiContainer";
+        bulletsContainer.name = "bulletsContainer";
         stage.addChild(tileHolder);
         stage.addChild(buildableGrid);
         stage.addChild(buildCursor);
@@ -50,6 +53,7 @@ var middleUiTexts = [];
         stage.addChild(enemyContainer);
         stage.addChild(towerContainer);
         stage.addChild(middleUiContainer);
+        stage.addChild(bulletsContainer);
         gameWorld = levelInit;
         level = LevelSingleton.getInstance();
         images = Object.create(null);
@@ -105,6 +109,17 @@ var middleUiTexts = [];
         uiContainer.addChild(text);
 
 
+        var heartIcon = new createjs.Bitmap(preload.getResult(images["heartIcon"]));
+        heartIcon.x = 650 ;
+        heartIcon.y = 577;
+        uiContainer.addChild(heartIcon);
+
+        var livesText = new createjs.Text("Lives Left : "  + PlayerSingleton.getInstance().lives, "36px Arial", "#FFFFFF");
+        livesText.x = 698;
+        livesText.y = 577;
+        livesText.name = "playerLives";
+        uiContainer.addChild(livesText);
+
     }
 
 
@@ -123,6 +138,9 @@ var middleUiTexts = [];
             {src : 'images/poisonTower.png' , id : 'poisonTower'},
             {src : 'images/poisonTowerUi.png' , id : 'poisonTowerUi'},
             {src : 'images/gold.png' , id : 'goldIcon'},
+            {src : 'images/goldIconSmall.png' , id : 'goldIconSmall'},
+            {src : 'images/heart.png' , id : 'heartIcon'},
+            {src : 'images/projectiles/beam.png' , id : 'beam'},
             {src : 'images/heroSpriteSheet.png' , id : 'heroSpriteSheet'},
             {src : 'images/heroSpriteSheetFlipped.png' , id : 'heroSpriteSheetFlipped'},
             {src : 'images/test.png' , id : 'test'},
@@ -209,6 +227,15 @@ var middleUiTexts = [];
          */
     }
 
+    function loadProjectile(){
+        var projectile = new createjs.Bitmap(preload.getResult(images["beam"])); //REMOVE HARDCODE
+        projectile.name = "beam";
+        bulletsContainer.addChild(projectile);
+        return projectile;
+    }
+
+
+
     function loadMiddleUi(tower){
 
         var selected = tower.towerType;
@@ -247,9 +274,15 @@ var middleUiTexts = [];
         middleUiContainer.addChild(speedText);
         middleUiTexts.push();
 
+        var goldIconSmall = new createjs.Bitmap(preload.getResult(images["goldIconSmall"]));
+        goldIconSmall.x = 520 ;
+        goldIconSmall.y = 644;
+        goldIconSmall.name = "goldIconSmall";
+        middleUiContainer.addChild(goldIconSmall);
+
         var costText = new createjs.Text("Tower cost : " + cost , "12px Arial", "#FFFFFF");
         costText.x = 437;
-        costText.y = 638+6;
+        costText.y = 644;
         costText.name = "costText";
         middleUiContainer.addChild(costText);
         middleUiTexts.push()
@@ -453,6 +486,7 @@ var middleUiTexts = [];
         getStage  : getStage,
         loadTower : loadTower,
         loadEnemy : loadEnemy,
+        loadProjectile : loadProjectile,
         changeAnimationForEnemy : changeAnimationForEnemy,
         loadFlippedEnemy : loadFlippedEnemy,
         loadMiddleUi : loadMiddleUi,

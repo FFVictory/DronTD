@@ -9,6 +9,7 @@ var Level = function(){
     var gameWorld = new Array(32);
     var assetManagementLocal;
     var towers = [];
+    var projectiles = [];
     var currentLevel;
     var enemies = [];
     //This function accepts an integer representing the level to be loaded.
@@ -39,6 +40,13 @@ var Level = function(){
 
     }
 
+    function projectileRemoval(projectileToRemove){
+        stage.getChildByName("bulletsContainer").removeChild(projectileToRemove.sprite);
+        var level = LevelSingleton.getInstance();
+        level.projectiles = level.projectiles.filter(function(obj) {
+            return obj != projectileToRemove;
+        });
+    }
 
     function enemyReachedGoal(enemyToRemove){
         stage.getChildByName("enemyContainer").removeChild(enemyToRemove.sprite);
@@ -151,6 +159,8 @@ var Level = function(){
         addTower : addTower,
         gameWorld : gameWorld,
         enemies : enemies,
+        projectileRemoval :projectileRemoval,
+        projectiles : projectiles,
         towers : towers,
         enemyReachedGoal : enemyReachedGoal,
         createEnemies : createEnemies //eto vremenno pohodu
