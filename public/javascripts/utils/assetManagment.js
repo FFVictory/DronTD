@@ -12,6 +12,7 @@ var preload;
 var uiContainer;
 var enemyContainer;
 var towerContainer;
+var middleUiContainer;
 var gameWorld;
 var highGround;
 var level;
@@ -20,6 +21,7 @@ var uiButtons;
 var enemySpriteSheet;
 var enemySpriteSheetDie;
 var enemySpriteSheetFlipped;
+var middleUiTexts = [];
 
     var getStage =function(){
         return stage;
@@ -33,18 +35,21 @@ var enemySpriteSheetFlipped;
         uiContainer = new createjs.Container();
         enemyContainer = new createjs.Container();
         towerContainer = new createjs.Container();
+        middleUiContainer = new createjs.Container();
         tileHolder.name = "tileHolder";
         towerContainer.name = "towerContainer";
         buildableGrid.name = "buildableGrid";
         buildCursor.name = "buildCursor";
         uiContainer.name = "uiContainer";
         enemyContainer.name = "enemyContainer";
+        middleUiContainer.name = "enemyContainer";
         stage.addChild(tileHolder);
         stage.addChild(buildableGrid);
         stage.addChild(buildCursor);
         stage.addChild(uiContainer);
         stage.addChild(enemyContainer);
         stage.addChild(towerContainer);
+        stage.addChild(middleUiContainer);
         gameWorld = levelInit;
         level = LevelSingleton.getInstance();
         images = Object.create(null);
@@ -98,6 +103,7 @@ var enemySpriteSheetFlipped;
         text.y = 507;
         text.name = "playerGold";
         uiContainer.addChild(text);
+
 
     }
 
@@ -203,6 +209,56 @@ var enemySpriteSheetFlipped;
          */
     }
 
+    function loadMiddleUi(tower){
+
+        var selected = tower.towerType;
+        var damage = tower.damage;
+        var range = tower.range;
+        var speed = tower.speed;
+        var cost = tower.speed;
+
+
+
+        var selectedText = new createjs.Text("Selected tower : " + selected, "12px Arial", "#FFFFFF");
+        selectedText.x = 437;
+        selectedText.y = 571;
+        selectedText.name = "selectedText";
+        middleUiContainer.addChild(selectedText);
+        middleUiTexts.push();
+
+        var damageText = new createjs.Text("Tower damage : " +damage , "12px Arial", "#FFFFFF");
+        damageText.x = 437;
+        damageText.y = 589;
+        damageText.name = "damageText";
+        middleUiContainer.addChild(damageText);
+        middleUiTexts.push();
+
+        var rangeText = new createjs.Text("Tower range : " +range , "12px Arial", "#FFFFFF");
+        rangeText.x = 437;
+        rangeText.y = 607;
+        rangeText.name = "rangeText";
+        middleUiContainer.addChild(rangeText);
+        middleUiTexts.push();
+
+        var speedText = new createjs.Text("Tower speed : " +speed , "12px Arial", "#FFFFFF");
+        speedText.x = 437;
+        speedText.y = 619 +6;
+        speedText.name = "speedText";
+        middleUiContainer.addChild(speedText);
+        middleUiTexts.push();
+
+        var costText = new createjs.Text("Tower cost : " + cost , "12px Arial", "#FFFFFF");
+        costText.x = 437;
+        costText.y = 638+6;
+        costText.name = "costText";
+        middleUiContainer.addChild(costText);
+        middleUiTexts.push()
+    }
+
+    function unloadMiddleUi(){
+        middleUiContainer.removeAllChildren();
+        middleUiTexts = [];
+    }
     function hideBuildableGrid(){
         buildableGrid.removeAllChildren();
         buildCursor.removeAllChildren();
@@ -399,6 +455,8 @@ var enemySpriteSheetFlipped;
         loadEnemy : loadEnemy,
         changeAnimationForEnemy : changeAnimationForEnemy,
         loadFlippedEnemy : loadFlippedEnemy,
+        loadMiddleUi : loadMiddleUi,
+        unloadMiddleUi : unloadMiddleUi,
         highlightTile : highlightTile,
         unloadImage : unloadImage,
         unloadEnemy : unloadEnemy,

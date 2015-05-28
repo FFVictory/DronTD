@@ -43,6 +43,7 @@ controller.start = (function(){
             if ((gameWorld[x][y].canBuildTower === true) && (gameWorld[x + 1][y].canBuildTower === true) && (gameWorld[x][y + 1].canBuildTower === true) && (gameWorld[x + 1][y + 1].canBuildTower === true)) {
                 if(uiLocal.selected) {
                     var tower = level.addTower(x, y, uiLocal.selected);// WARNING : HARDCODE or not?
+
                     var towerSprite = assetManagementLocal.loadTower(x, y);
                     tower.setSprite(towerSprite);
                     tower.calcRanges();

@@ -149,7 +149,7 @@ function EnemyFactory() {
                     else if ((enemy.targetX < enemy.sprite.x) || (enemy.targetY < enemy.sprite.y)) {
                         if (enemy.targetX < enemy.sprite.x) {
                             if (enemy.sprite.direction === 90) {
-                                var newSprites = assetManagement.start.loadFlippedEnemy(enemy.sprite.x, enemy.sprite.y, enemy.sprite, enemy.deadSprite);
+                                var newSprites = AssetManagementSingleton.getInstance().loadFlippedEnemy(enemy.sprite.x, enemy.sprite.y, enemy.sprite, enemy.deadSprite);
                                 enemy.sprite = newSprites.heroAnimation;
                                 enemy.deadSprite = newSprites.deadAnimation;
                             }
@@ -168,7 +168,7 @@ function EnemyFactory() {
                         enemy.targetX = enemy.sprite.X;
                     }
                     if ((enemy.sprite.x === 288) && (enemy.sprite.y === 448)) {
-                        console.log("lost a life");
+                        PlayerSingleton.getInstance().loseLife();
                         LevelSingleton.getInstance().enemyReachedGoal(enemy);
                     }
 

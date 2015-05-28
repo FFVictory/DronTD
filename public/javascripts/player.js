@@ -7,7 +7,8 @@ var Player = function(){
     this.lives = 10;
 
     var loseLife= function(){
-        this.lives = this.lives--;
+        this.lives --;
+        UiSingleton.getInstance().updateLives();
     };
 
     var deductGold = function (amount){

@@ -23,9 +23,16 @@ var Ui = function(){
         else if((UiSingleton.getInstance().buildMode === 1) && (towerType === UiSingleton.getInstance().selected)){
             UiSingleton.getInstance().buildMode= 0;
             assetManagementLocal.hideBuildableGrid();
+            assetManagementLocal.unloadMiddleUi();
         }
         if(towerType){
+            assetManagementLocal.unloadMiddleUi();
             UiSingleton.getInstance().selected = towerType;
+            var trashTowerFactory = new TowerFactory();
+            var trashTower = trashTowerFactory.createTower({
+                towerType: towerType
+            });
+            assetManagementLocal.loadMiddleUi(trashTower);
         }
 
 
@@ -33,6 +40,12 @@ var Ui = function(){
 
 
 
+    var updateLives = function(){
+        var player = PlayerSingleton.getInstance();
+        console.log("PLayer lives : " + player.lives );
+
+
+    };
 
     var tileMouse = function(stage){
         for(var i =0 ; i< stage.getChildByName("tileHolder").children.length ; i++){
@@ -57,6 +70,7 @@ var Ui = function(){
         selected : selected,
         init : init,
         buildMode : buildMode,
+        updateLives : updateLives,
         toggleBuildMode : toggleBuildMode,
         tileMouse : tileMouse
 
