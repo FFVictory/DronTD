@@ -137,6 +137,7 @@ Level = function(){
             gameWorld[x][y + 1].canBuildTower = false;
             gameWorld[x + 1][y].canBuildTower = false;
         }
+        return tower;
     }
 
     return {
@@ -144,6 +145,7 @@ Level = function(){
         addTower : addTower,
         gameWorld : gameWorld,
         enemies : enemies,
+        towers : towers,
         enemyReachedGoal : enemyReachedGoal,
         createEnemies : createEnemies //eto vremenno pohodu
     }

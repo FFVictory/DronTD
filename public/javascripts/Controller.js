@@ -40,8 +40,10 @@ controller.start = (function(){
             y = Math.floor(event.stageY / 32);
             if ((gameWorld[x][y].canBuildTower === true) && (gameWorld[x + 1][y].canBuildTower === true) && (gameWorld[x][y + 1].canBuildTower === true) && (gameWorld[x + 1][y + 1].canBuildTower === true)) {
                 if(uiLocal.selected) {
-                    level.addTower(x, y, uiLocal.selected);// WARNING : HARDCODE or not?
-                    assetManagementLocal.loadTower(x, y);
+                    var tower = level.addTower(x, y, uiLocal.selected);// WARNING : HARDCODE or not?
+                    var towerSprite = assetManagementLocal.loadTower(x, y);
+                    tower.setSprite(towerSprite);
+                    tower.calcRanges();
                 }
             }
         }
@@ -61,11 +63,10 @@ controller.start = (function(){
 
 
     var tick =  function(event){
-            enemyCounterDelay ++ ;
-            if((enemyCounterDelay % 50 === 0 ) && (controller.start.canSpawn === true) && (enemyCounterDelay <= 50)){
-
-                level.createEnemies();
-            }
+        enemyCounterDelay ++ ;
+        if((enemyCounterDelay % 50 === 0 ) && (controller.start.canSpawn === true) && (enemyCounterDelay <= 500)){
+            level.createEnemies();
+        }
 
 
         if(uiLocal.buildMode===1)
@@ -75,6 +76,10 @@ controller.start = (function(){
         var enemies  = level.enemies;
         for(var i = 0 ; i < enemies.length; i++){
             enemies[i].turn();
+        }
+        var towers = level.towers;
+        for(i = 0 ; i < towers.length; i++){
+            towers[i].turn();
         }
         stage.update();
     };

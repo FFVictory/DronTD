@@ -11,6 +11,7 @@ var buildCursor;
 var preload;
 var uiContainer;
 var enemyContainer;
+var towerContainer;
 var gameWorld;
 var highGround;
 var level;
@@ -27,7 +28,9 @@ var enemySpriteSheetFlipped;
         buildCursor= new createjs.Container();
         uiContainer = new createjs.Container();
         enemyContainer = new createjs.Container();
+        towerContainer = new createjs.Container();
         tileHolder.name = "tileHolder";
+        towerContainer.name = "towerContainer";
         buildableGrid.name = "buildableGrid";
         buildCursor.name = "buildCursor";
         uiContainer.name = "uiContainer";
@@ -37,6 +40,7 @@ var enemySpriteSheetFlipped;
         stage.addChild(buildCursor);
         stage.addChild(uiContainer);
         stage.addChild(enemyContainer);
+        stage.addChild(towerContainer);
         gameWorld = levelInit;
         level = LevelSingleton.getInstance();
         images = Object.create(null);
@@ -212,20 +216,21 @@ var enemySpriteSheetFlipped;
                 img = new createjs.Bitmap(preload.getResult(images["arrowTower"]));
                 img.x = Math.round(locX);
                 img.y = Math.round(locY);
-                stage.addChild(img);
+                towerContainer.addChild(img);
             }
             else if (gameWorld[x][y].drawTower === "fireTower") {
                 img = new createjs.Bitmap(preload.getResult(images["fireTower"]));
                 img.x = Math.round(locX);
                 img.y = Math.round(locY);
-                stage.addChild(img);
+                towerContainer.addChild(img);
             }
             else if (gameWorld[x][y].drawTower === "poisonTower") {
                 img = new createjs.Bitmap(preload.getResult(images["poisonTower"]));
                 img.x = Math.round(locX);
                 img.y = Math.round(locY);
-                stage.addChild(img);
+                towerContainer.addChild(img);
             }
+            return img;
 
         }
         catch(e){

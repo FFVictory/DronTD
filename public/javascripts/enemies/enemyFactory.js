@@ -107,12 +107,16 @@ function EnemyFactory() {
                 targetY: targetY * 32
             }
         };
-
+        enemy.takeDamage = function(damage){
+            console.log("before deduction  :  " + enemy.health);
+          enemy.health = enemy.health - damage;
+            console.log("after deduction  :  " + enemy.health);
+        };
 
         enemy.turn = function () {
             if (!enemy.targetX || !enemy.targetY) {
                 var result = enemy.checkSurroundings(enemy.sprite.x,enemy.sprite.y);
-                console.log(result);
+                //console.log(result);
                 enemy.targetX = result.targetX;
                 enemy.targetY = result.targetY;
             }
