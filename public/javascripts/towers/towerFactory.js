@@ -43,6 +43,8 @@ function TowerFactory() {
             enemy.takeDamage(tower.damage);
         };
         tower.turn = function(){
+            tower.level = LevelSingleton.getInstance();
+            tower.enemies = tower.level.enemies;
             tower.reachableEnemies = tower.enemies.filter(function(obj){
                 var objX = obj.sprite.x;
                 var objY = obj.sprite.y;

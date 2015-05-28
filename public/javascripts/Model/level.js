@@ -40,7 +40,8 @@ Level = function(){
 
     function enemyReachedGoal(enemyToRemove){
         stage.getChildByName("enemyContainer").removeChild(enemyToRemove.sprite);
-        this.enemies = this.enemies.filter(function(obj) {
+        level = LevelSingleton.getInstance();
+        level.enemies = level.enemies.filter(function(obj) {
             return obj != enemyToRemove;
         });
     }
