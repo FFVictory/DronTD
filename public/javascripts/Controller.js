@@ -14,6 +14,7 @@ controller.start = (function(){
     var uiLocal;
     var player;
     var level;
+    var once = false;
     var enemyCounterDelay = 0 ;
     var canSpawn = false;
     var previous; //refactor mb
@@ -24,10 +25,11 @@ controller.start = (function(){
         uiLocal = UiSingleton.getInstance();
         level = LevelSingleton.getInstance();
         gameWorld = level.initialize(stage).gameWorld;
-        assetManagementLocal = assetManagement.start;
+        assetManagementLocal = AssetManagementSingleton.getInstance();
         assetManagementLocal.load(stage,gameWorld);
         stage.getChildByName("buildCursor").on("click" , handleClick);
         setupStage.ticker();
+
 
     });
 
@@ -64,8 +66,11 @@ controller.start = (function(){
 
     var tick =  function(event){
         enemyCounterDelay ++ ;
-        if((enemyCounterDelay % 50 === 0 ) && (controller.start.canSpawn === true) && (enemyCounterDelay <= 150)){
-            level.createEnemies();
+        if((enemyCounterDelay % 50 === 0 ) && (controller.start.canSpawn === true) && (enemyCounterDelay <= 200)){
+
+            //nizhe kal
+
+            level.createEnemies(); //problema tut
         }
 
 
@@ -79,7 +84,10 @@ controller.start = (function(){
         }
         var towers = level.towers;
         for(i = 0 ; i < towers.length; i++){
-            towers[i].turn();
+            towers[i].turnDelay ++ ;
+            if(towers[i].turnDelay % 100 ===0 ) {
+                towers[i].turn();
+            }
         }
         stage.update();
     };

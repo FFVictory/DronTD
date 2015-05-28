@@ -4,7 +4,7 @@
 
 //This is the skeleton , which should be extended
 function TowerFactory() {
-
+"use strict";
     this.createTower = function (options) {
         var tower;
         switch (options.towerType) {
@@ -18,6 +18,7 @@ function TowerFactory() {
                 tower = new PoisonTower(options);
                 break;
         }
+        tower.turnDelay = 0;
         tower.sprite = "undefined";
         tower.level = LevelSingleton.getInstance();
         tower.enemies = tower.level.enemies;
@@ -31,7 +32,6 @@ function TowerFactory() {
             tower.maxRangeX = spriteX + tower.range;
             tower.maxRangeY = spriteY + tower.range;
 
-
         };
 
         tower.setSprite = function(sprite){
@@ -39,12 +39,29 @@ function TowerFactory() {
         };
 
         tower.dealDamage = function(enemy){
-            console.log("Current target : " + tower.reachableEnemies[0]);
-            enemy.takeDamage(tower.damage);
+            if(enemy.ready === true) {
+                console.log("Current target : " + tower.reachableEnemies[0]);
+                console.log("target . x : " + tower.reachableEnemies[0].sprite.x);
+                console.log("target . y : " + tower.reachableEnemies[0].sprite.y);
+                enemy.takeDamage(tower.damage);
+            }
+            else{
+                console.log("not ready");
+            }
         };
         tower.turn = function(){
             tower.level = LevelSingleton.getInstance();
             tower.enemies = tower.level.enemies;
+            tower.enemies = tower.enemies.filter(function(obj){
+               if(obj.ready === false){
+                   console.log("popalasj suka");
+                   return false;
+               }
+               else{
+                   console.log("nepopalasj suka");
+                   return true;
+               }
+            });
             tower.reachableEnemies = tower.enemies.filter(function(obj){
                 var objX = obj.sprite.x;
                 var objY = obj.sprite.y;
@@ -58,6 +75,9 @@ function TowerFactory() {
             if(enemy) {
                 if (enemy.health > 0) {
                     tower.dealDamage(enemy);
+                }
+                if(enemy.health <= 0){
+                    enemy.die();
                 }
             }
         };

@@ -2,7 +2,7 @@
  * Created by Andrew on 26/05/2015.
  */
 function EnemyFactory() {
-
+"use strict";
     this.createEnemy = function (options) {
         var enemy;
         switch (options.enemyType) {
@@ -18,6 +18,7 @@ function EnemyFactory() {
         enemy.targetX = 96;
         enemy.targetY = 0;
         enemy.deathDelay = 0;
+        enemy.ready = false;
         enemy.tempTest = function () {
             //alert("is this an instance of hero enemy? : " + (enemy instanceof HeroEnemy));
         };
@@ -103,7 +104,9 @@ function EnemyFactory() {
             }
             enemy.previous[0] = x;
             enemy.previous[1] = y;
-
+            if((Math.floor(currPixX) === 96)&&(Math.floor(currPixY)===64)) {
+                enemy.ready = true;
+            }
             return {
                 targetX: targetX * 32,
                 targetY: targetY * 32
@@ -115,62 +118,63 @@ function EnemyFactory() {
             console.log("after deduction  :  " + enemy.health);
         };
 
+        enemy.die = function(){
+            enemy.sprite = AssetManagementSingleton.getInstance().changeAnimationForEnemy(enemy.sprite,enemy.deadSprite);
+            var level = LevelSingleton.getInstance();
+            level.enemies = level.enemies.filter(function(obj) {
+                return obj != enemy;
+            });
+            setTimeout(function(){
+                AssetManagementSingleton.getInstance().unloadEnemy(enemy.sprite);
+            },1000);
+        };
         enemy.turn = function () {
-            if(enemy.health <= 0 ){
-                enemy.sprite = assetManagement.start.changeAnimationForEnemy(enemy.sprite,enemy.deadSprite);
-                if(enemy.sprite == enemy.deadSprite){
-                    enemy.deathDelay++;
-                    if(enemy.deathDelay % 14 === 0 ){
-                        LevelSingleton.getInstance().enemyReachedGoal(enemy);
 
-                    }
+
+                if (!enemy.targetX || !enemy.targetY) {
+                    var result = enemy.checkSurroundings(enemy.sprite.x, enemy.sprite.y);
+                    //console.log(result);
+                    enemy.targetX = result.targetX;
+                    enemy.targetY = result.targetY;
                 }
-            }
-
-            if (!enemy.targetX || !enemy.targetY) {
-                var result = enemy.checkSurroundings(enemy.sprite.x,enemy.sprite.y);
-                //console.log(result);
-                enemy.targetX = result.targetX;
-                enemy.targetY = result.targetY;
-            }
-            if (enemy.sprite) {
-
-                if((enemy.targetX > enemy.sprite.x) ||(enemy.targetY > enemy.sprite.y) ) {
-                    if (enemy.targetX > enemy.sprite.x) {
-                        enemy.sprite.x = enemy.sprite.x + 1;
-                    }
-                    if (enemy.targetY > enemy.sprite.y) {
-                        enemy.sprite.y = enemy.sprite.y + 1;
-                    }
-                }
-                else if((enemy.targetX < enemy.sprite.x) ||(enemy.targetY < enemy.sprite.y) ) {
-                    if (enemy.targetX < enemy.sprite.x) {
-                        if(enemy.sprite.direction === 90) {
-                            var newSprites= assetManagement.start.loadFlippedEnemy(enemy.sprite.x ,enemy.sprite.y ,enemy.sprite ,enemy.deadSprite);
-                            enemy.sprite = newSprites.heroAnimation;
-                            enemy.deadSprite = newSprites.deadAnimation;
+                if (enemy.sprite) {
+                    if ((enemy.targetX > enemy.sprite.x) || (enemy.targetY > enemy.sprite.y)) {
+                        if (enemy.targetX > enemy.sprite.x) {
+                            enemy.sprite.x = enemy.sprite.x + 1;
                         }
+                        if (enemy.targetY > enemy.sprite.y) {
+                            enemy.sprite.y = enemy.sprite.y + 1;
+                        }
+                    }
+                    else if ((enemy.targetX < enemy.sprite.x) || (enemy.targetY < enemy.sprite.y)) {
+                        if (enemy.targetX < enemy.sprite.x) {
+                            if (enemy.sprite.direction === 90) {
+                                var newSprites = assetManagement.start.loadFlippedEnemy(enemy.sprite.x, enemy.sprite.y, enemy.sprite, enemy.deadSprite);
+                                enemy.sprite = newSprites.heroAnimation;
+                                enemy.deadSprite = newSprites.deadAnimation;
+                            }
                             enemy.sprite.x = enemy.sprite.x - 1;
+                        }
+                        if (enemy.targetY < enemy.sprite.y) {
+                            enemy.sprite.y = enemy.sprite.y - 1;
+                        }
                     }
-                    if (enemy.targetY < enemy.sprite.y) {
-                        enemy.sprite.y = enemy.sprite.y - 1;
+                    else {
+                        enemy.targetX = 0;
+                        enemy.targetY = 0;
                     }
-                }
-                else{
-                    enemy.targetX = 0;
-                    enemy.targetY = 0;
-                }
-                if((enemy.sprite.x === 288) && (enemy.sprite.y === 384)){
-                    enemy.targetY = 448;
-                    enemy.targetX = enemy.sprite.X;
-                }
-                if((enemy.sprite.x === 288) && (enemy.sprite.y === 448)) {
-                    console.log("lost a life");
-                    LevelSingleton.getInstance().enemyReachedGoal(enemy);
-                }
+                    if ((enemy.sprite.x === 288) && (enemy.sprite.y === 384)) {
+                        enemy.targetY = 448;
+                        enemy.targetX = enemy.sprite.X;
+                    }
+                    if ((enemy.sprite.x === 288) && (enemy.sprite.y === 448)) {
+                        console.log("lost a life");
+                        LevelSingleton.getInstance().enemyReachedGoal(enemy);
+                    }
 
 
-            }
+                }
+
 
         };
         return enemy;

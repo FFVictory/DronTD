@@ -1,9 +1,9 @@
 /**
  * Created by Drew on 14/05/2015.
  */
-var assetManagement = {};
+
 "use strict";
-assetManagement.start = (function(){
+var AssetManagement = function(){
 var stage;
 var tileHolder;
 var buildableGrid; //contains the transparent green to highlight the whole field
@@ -21,8 +21,11 @@ var enemySpriteSheet;
 var enemySpriteSheetDie;
 var enemySpriteSheetFlipped;
 
-
+    var getStage =function(){
+        return stage;
+    };
     var load = function(stageInit,levelInit){
+        console.log("stage is defined yo");
         stage = stageInit;
         tileHolder = new createjs.Container();
         buildableGrid = new createjs.Container();
@@ -333,6 +336,10 @@ var enemySpriteSheetFlipped;
 
     }
 
+    function unloadEnemy(enemyToRemove){
+        enemyContainer.removeChild(enemyToRemove);
+
+    }
     function loadEnemy(){
         var heroAnimation = new createjs.Sprite(enemySpriteSheet,"run");
         heroAnimation.play();
@@ -387,14 +394,16 @@ var enemySpriteSheetFlipped;
     return {
         showBuildableGrid : showBuildableGrid,
         load : load,
+        getStage  : getStage,
         loadTower : loadTower,
         loadEnemy : loadEnemy,
         changeAnimationForEnemy : changeAnimationForEnemy,
         loadFlippedEnemy : loadFlippedEnemy,
         highlightTile : highlightTile,
         unloadImage : unloadImage,
+        unloadEnemy : unloadEnemy,
         uiButtons : uiButtons,
         hideBuildableGrid : hideBuildableGrid
     }
 
-}());
+};

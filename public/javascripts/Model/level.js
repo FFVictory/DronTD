@@ -2,8 +2,9 @@
  * Created by Drew on 14/05/2015.
  */
 
+"use strict";
 
-Level = function(){
+var Level = function(){
     var stage;
     var gameWorld = new Array(32);
     var assetManagementLocal;
@@ -15,9 +16,9 @@ Level = function(){
     // And maybe do the asset managment.
 
     function initialize(stageInit){
-        assetManagementLocal = assetManagement.start;
         createGameWorld(stageInit);
         changeLevel(1);
+        assetManagementLocal = AssetManagementSingleton.getInstance();
 
         return {
             gameWorld : gameWorld
@@ -38,9 +39,10 @@ Level = function(){
 
     }
 
+
     function enemyReachedGoal(enemyToRemove){
         stage.getChildByName("enemyContainer").removeChild(enemyToRemove.sprite);
-        level = LevelSingleton.getInstance();
+        var level = LevelSingleton.getInstance();
         level.enemies = level.enemies.filter(function(obj) {
             return obj != enemyToRemove;
         });

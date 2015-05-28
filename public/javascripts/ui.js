@@ -6,7 +6,7 @@ var Ui = function(){
     var buildMode = 0 ;
     var previous;
     var selected;
-    var assetManagementLocal = assetManagement.start; //move this to init mb
+ //move this to init mb
 
     var init = function (){
 
@@ -15,6 +15,7 @@ var Ui = function(){
     //this is called by an event listener so things are not so simple as it seems.
 
     var toggleBuildMode = function(towerType){
+        var assetManagementLocal = AssetManagementSingleton.getInstance();
         if(UiSingleton.getInstance().buildMode === 0) {
             UiSingleton.getInstance().buildMode= 1;
             assetManagementLocal.showBuildableGrid();
@@ -39,10 +40,10 @@ var Ui = function(){
             var pt = currentChild.globalToLocal(stage.mouseX , stage.mouseY);
             if(stage.mouseInBounds && currentChild.hitTest(pt.x , pt.y) && (previous != currentChild)){
                 if(previous !== null){
-                    assetManagementLocal.unloadImage(previous);
+                    AssetManagementSingleton.getInstance().unloadImage(previous);
 
                 }
-                assetManagementLocal.highlightTile(currentChild.x,currentChild.y);
+                AssetManagementSingleton.getInstance().highlightTile(currentChild.x,currentChild.y);
                 previous = currentChild;
 
 
