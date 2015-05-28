@@ -17,6 +17,7 @@ controller.start = (function(){
     var once = false;
     var enemyCounterDelay = 0 ;
     var canSpawn = false;
+    var canWin = false;
     var previous; //refactor mb
     $(document).ready(function(){
 
@@ -52,31 +53,45 @@ controller.start = (function(){
         }
 
     };
-    var fake = function(){
-        var level = new Array(10);
-        var i = 0;
-        for(i ; i<level.length ; i++){
-            level[i] = new Array(10);
-        }
-        assetManagementLocal.load(stage,level);
 
+    var winLoss = function(e){
+        setupStage.stopTicker();
+        if(e === "loss"){
+            AssetManagementSingleton.getInstance().loadLoss();
+        }
+        if(e === "win"){
+            AssetManagementSingleton.getInstance().loadWin();
+
+        }
 
     };
 
 
-
     var tick =  function(event){
-
+        var playerLives = PlayerSingleton.getInstance().lives;
+        var enemies  = level.enemies;
+        if(playerLives <= 0 ){
+            winLoss("loss");
+            stage.on("click" , function(){
+                window.location.reload();
+            });
+        }
+        if((controller.start.canWin === true)&&(enemies.length ===0)){
+            winLoss("win");
+            stage.on("click" , function(){
+                window.location.reload();
+            });
+        }
         if(controller.start.canSpawn === true){
             level.createEnemies(); //problema tut
             controller.start.canSpawn = false;
+            controller.start.canWin = true;
         }
 
         if(uiLocal.buildMode===1)
         {
             uiLocal.tileMouse(stage);
         }
-        var enemies  = level.enemies;
         for(var i = 0 ; i < enemies.length; i++){
             enemies[i].turn();
         }
@@ -98,6 +113,7 @@ controller.start = (function(){
 
     return {
         canSpawn : canSpawn,
+        canWin : canWin,
         tick : tick
 
     };

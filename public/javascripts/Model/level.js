@@ -32,7 +32,7 @@ var Level = function(){
             var enemy = enemyFactory.createEnemy({
                 enemyType: "heroEnemy"
             });
-            var sprites = assetManagementLocal.loadEnemy( (i* (-96)));
+            var sprites = assetManagementLocal.loadEnemy( (i* (-64)));
             var runAnimation = sprites.heroAnimation;
             var deadAnimation = sprites.deadAnimation;
             enemy.setSprite(runAnimation, deadAnimation);

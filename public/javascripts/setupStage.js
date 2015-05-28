@@ -28,8 +28,12 @@ var setupStage = (function(){
         createjs.Ticker.addEventListener("tick" , controller.start.tick);
 
     };
+    var stopTicker = function(){
+        createjs.Ticker.removeAllEventListeners();
+    };
 
     return {
+        stopTicker : stopTicker,
         canvasInit: canvasInit,
         ticker: ticker
     };

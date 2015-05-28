@@ -98,12 +98,12 @@ var middleUiTexts = [];
         uiContainer.addChild(poisonTower);
 
         var goldIcon = new createjs.Bitmap(preload.getResult(images["goldIcon"]));
-        goldIcon.x = 429 ;
+        goldIcon.x = 440 ;
         goldIcon.y = 507;
         uiContainer.addChild(goldIcon);
 
         var text = new createjs.Text(PlayerSingleton.getInstance().gold , "48px Arial", "#FFFFFF");
-        text.x = 477;
+        text.x = 490;
         text.y = 507;
         text.name = "playerGold";
         uiContainer.addChild(text);
@@ -140,6 +140,8 @@ var middleUiTexts = [];
             {src : 'images/gold.png' , id : 'goldIcon'},
             {src : 'images/goldIconSmall.png' , id : 'goldIconSmall'},
             {src : 'images/heart.png' , id : 'heartIcon'},
+            {src : 'images/loss.png' , id : 'loss'},
+            {src : 'images/win.png' , id : 'win'},
             {src : 'images/projectiles/poisonBeam.png' , id : 'poisonBeam'},
             {src : 'images/projectiles/arrowBeam.png' , id : 'arrowBeam'},
             {src : 'images/projectiles/fireBeam.png' , id : 'fireBeam'},
@@ -255,7 +257,7 @@ var middleUiTexts = [];
         var damage = tower.damage;
         var range = tower.range;
         var speed = tower.speed;
-        var cost = tower.speed;
+        var cost = tower.cost;
 
 
 
@@ -443,6 +445,18 @@ var middleUiTexts = [];
 
     }
 
+    function loadLoss(){
+        var img = new createjs.Bitmap(preload.getResult(images["loss"]));
+        img.x = 332;
+        img.y =100 ;
+        stage.addChild(img);
+    }
+    function loadWin(){
+        var img = new createjs.Bitmap(preload.getResult(images["win"]));
+        img.x = 132;
+        img.y =80 ;
+        stage.addChild(img);
+    }
     //creates the animation
     function loadEnemy( tarY){
         var heroAnimation = new createjs.Sprite(enemySpriteSheet,"run");
@@ -500,6 +514,8 @@ var middleUiTexts = [];
         load : load,
         getStage  : getStage,
         loadTower : loadTower,
+        loadLoss : loadLoss,
+        loadWin : loadWin,
         loadEnemy : loadEnemy,
         loadProjectile : loadProjectile,
         changeAnimationForEnemy : changeAnimationForEnemy,
