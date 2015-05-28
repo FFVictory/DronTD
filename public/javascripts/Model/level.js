@@ -27,7 +27,7 @@ var Level = function(){
     }
 
     function createEnemies(){
-        for(var i = 0 ; i< 21 ; i++) {
+        for(var i = 0 ; i< 31 ; i++) {
             var enemyFactory = new EnemyFactory();
             var enemy = enemyFactory.createEnemy({
                 enemyType: "heroEnemy"

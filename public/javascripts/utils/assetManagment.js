@@ -23,7 +23,7 @@ var enemySpriteSheet;
 var enemySpriteSheetDie;
 var enemySpriteSheetFlipped;
 var middleUiTexts = [];
-
+var soundPlaying = false;
     var getStage =function(){
         return stage;
     };
@@ -58,9 +58,25 @@ var middleUiTexts = [];
         level = LevelSingleton.getInstance();
         images = Object.create(null);
         loadImages();
+        loadSound();
 
     };
 
+
+    function loadSound() {
+        createjs.Sound.alternateExtensions = ["mp3"];
+        createjs.Sound.on("fileload", soundLoadHandler);
+        createjs.Sound.registerSound("sound/LevelUp.mp3", "sound");
+    }
+    var soundLoadHandler = function(event){
+        // This is fired for each sound that is registered.
+        if(soundPlaying === false) {
+            soundPlaying = true;
+            var instance = createjs.Sound.play("sound");  // play using id.  Could also use full sourcepath or event.src.
+            instance.on("complete", this.handleComplete, this);
+            instance.volume = 0.3;
+        }
+    };
 
 
     function loadUi(){
@@ -290,7 +306,7 @@ var middleUiTexts = [];
         middleUiTexts.push();
 
         var goldIconSmall = new createjs.Bitmap(preload.getResult(images["goldIconSmall"]));
-        goldIconSmall.x = 520 ;
+        goldIconSmall.x = 530 ;
         goldIconSmall.y = 644;
         goldIconSmall.name = "goldIconSmall";
         middleUiContainer.addChild(goldIconSmall);
