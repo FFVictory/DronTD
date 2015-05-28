@@ -16,7 +16,7 @@ function EnemyFactory() {
         enemy.previous[0]= -64;
         enemy.previous[1]= -64;
         enemy.targetX = 96;
-        enemy.targetY = 0;
+        enemy.targetY = 1;
         enemy.deathDelay = 0;
         enemy.ready = false;
         enemy.tempTest = function () {
@@ -125,6 +125,7 @@ function EnemyFactory() {
         enemy.die = function(){
             enemy.sprite = AssetManagementSingleton.getInstance().changeAnimationForEnemy(enemy.sprite,enemy.deadSprite);
             var level = LevelSingleton.getInstance();
+            PlayerSingleton.getInstance().grantGold(50);
             level.enemies = level.enemies.filter(function(obj) {
                 return obj != enemy;
             });

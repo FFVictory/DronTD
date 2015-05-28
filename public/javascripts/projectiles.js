@@ -39,9 +39,11 @@ function Projectiles(enemy,originX,originY,sprite,tower){
             move(targetX,targetY);
         }
         if((targetX === sprite.x )&&(targetY === sprite.y)){
-            tower.enemyHit(enemy);
+            var hp = tower.enemyHit(enemy);
             LevelSingleton.getInstance().projectileRemoval(selfReference);
-            enemy.die();
+            if(hp <= 0) {
+                enemy.die();
+            }
         }
 
 
@@ -49,6 +51,6 @@ function Projectiles(enemy,originX,originY,sprite,tower){
 
     selfReference.turn  = turn;
     return {
-        selfReference : selfReference,
+        selfReference : selfReference
     }
 }

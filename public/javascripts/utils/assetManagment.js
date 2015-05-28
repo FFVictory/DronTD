@@ -140,7 +140,9 @@ var middleUiTexts = [];
             {src : 'images/gold.png' , id : 'goldIcon'},
             {src : 'images/goldIconSmall.png' , id : 'goldIconSmall'},
             {src : 'images/heart.png' , id : 'heartIcon'},
-            {src : 'images/projectiles/beam.png' , id : 'beam'},
+            {src : 'images/projectiles/poisonBeam.png' , id : 'poisonBeam'},
+            {src : 'images/projectiles/arrowBeam.png' , id : 'arrowBeam'},
+            {src : 'images/projectiles/fireBeam.png' , id : 'fireBeam'},
             {src : 'images/heroSpriteSheet.png' , id : 'heroSpriteSheet'},
             {src : 'images/heroSpriteSheetFlipped.png' , id : 'heroSpriteSheetFlipped'},
             {src : 'images/test.png' , id : 'test'},
@@ -227,8 +229,19 @@ var middleUiTexts = [];
          */
     }
 
-    function loadProjectile(){
-        var projectile = new createjs.Bitmap(preload.getResult(images["beam"])); //REMOVE HARDCODE
+    function loadProjectile(towerType){
+        var projectile;
+        switch(towerType) {
+            case "arrowTower" :
+                projectile = new createjs.Bitmap(preload.getResult(images["arrowBeam"])); //REMOVE HARDCODE
+                break;
+            case "fireTower" :
+                projectile = new createjs.Bitmap(preload.getResult(images["fireBeam"])); //REMOVE HARDCODE
+                break;
+            case "poisonTower" :
+                projectile = new createjs.Bitmap(preload.getResult(images["poisonBeam"])); //REMOVE HARDCODE
+                break
+        }
         projectile.name = "beam";
         bulletsContainer.addChild(projectile);
         return projectile;
@@ -429,12 +442,14 @@ var middleUiTexts = [];
         enemyContainer.removeChild(enemyToRemove);
 
     }
-    function loadEnemy(){
+
+    //creates the animation
+    function loadEnemy( tarY){
         var heroAnimation = new createjs.Sprite(enemySpriteSheet,"run");
         heroAnimation.play();
         heroAnimation.name = "hero";
         heroAnimation.x = 96;
-        heroAnimation.y = 0;
+        heroAnimation.y = tarY;  //0
         heroAnimation.direction = 90;
         var deadAnimation= new createjs.Sprite(enemySpriteSheet,"dead");
         deadAnimation.name = "dead";

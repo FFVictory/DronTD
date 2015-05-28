@@ -49,6 +49,13 @@ var Ui = function(){
 
 
     };
+    var updateGold = function(){
+        var stage = AssetManagementSingleton.getInstance().getStage();
+        stage.getChildByName("uiContainer").getChildByName("playerGold").text= PlayerSingleton.getInstance().gold;
+
+
+
+    };
 
     var tileMouse = function(stage){
         for(var i =0 ; i< stage.getChildByName("tileHolder").children.length ; i++){
@@ -74,6 +81,7 @@ var Ui = function(){
         init : init,
         buildMode : buildMode,
         updateLives : updateLives,
+        updateGold : updateGold,
         toggleBuildMode : toggleBuildMode,
         tileMouse : tileMouse
 

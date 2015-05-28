@@ -27,16 +27,18 @@ var Level = function(){
     }
 
     function createEnemies(){
-        var enemyFactory = new EnemyFactory();
-        var enemy =  enemyFactory.createEnemy({
-            enemyType : "heroEnemy"
-        });
-        var sprites =assetManagementLocal.loadEnemy();
-        var runAnimation = sprites.heroAnimation;
-        var deadAnimation = sprites.deadAnimation;
-        enemy.setSprite(runAnimation,deadAnimation);
+        for(var i = 0 ; i< 21 ; i++) {
+            var enemyFactory = new EnemyFactory();
+            var enemy = enemyFactory.createEnemy({
+                enemyType: "heroEnemy"
+            });
+            var sprites = assetManagementLocal.loadEnemy( (i* (-96)));
+            var runAnimation = sprites.heroAnimation;
+            var deadAnimation = sprites.deadAnimation;
+            enemy.setSprite(runAnimation, deadAnimation);
 
-        enemies.push(enemy);
+            enemies.push(enemy);
+        }
 
     }
 

@@ -22,6 +22,8 @@ var Player = function(){
 
     var grantGold = function(amount){
         this.gold = this.gold + amount;
+        UiSingleton.getInstance().updateGold();
+
     };
 
     return {

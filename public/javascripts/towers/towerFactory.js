@@ -18,7 +18,7 @@ function TowerFactory() {
                 tower = new PoisonTower(options);
                 break;
         }
-        tower.turnDelay = 99;
+        tower.turnDelay = 100;
         tower.sprite = "undefined";
         tower.level = LevelSingleton.getInstance();
         tower.enemies = tower.level.enemies;
@@ -41,11 +41,12 @@ function TowerFactory() {
 
         tower.enemyHit = function(enemy){
             enemy.takeDamage(tower.damage);
+            return enemy.health;
         };
         tower.dealDamage = function(enemy){
             if(enemy.ready === true) {
                 var assetManagementLocal = AssetManagementSingleton.getInstance();
-                var projectileSprite = assetManagementLocal.loadProjectile();
+                var projectileSprite = assetManagementLocal.loadProjectile(tower.towerType);
                 var projectile = new Projectiles(enemy,tower.sprite.x , tower.sprite.y ,projectileSprite,tower).selfReference;
                 LevelSingleton.getInstance().projectiles.push(projectile);
                 console.log("projetile product : " + projectile);

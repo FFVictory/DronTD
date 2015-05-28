@@ -66,14 +66,11 @@ controller.start = (function(){
 
 
     var tick =  function(event){
-        enemyCounterDelay ++ ;
-        if((enemyCounterDelay % 50 === 0 ) && (controller.start.canSpawn === true) && (enemyCounterDelay <= 200)){
 
-            //nizhe kal
-
+        if(controller.start.canSpawn === true){
             level.createEnemies(); //problema tut
+            controller.start.canSpawn = false;
         }
-
 
         if(uiLocal.buildMode===1)
         {
@@ -93,7 +90,6 @@ controller.start = (function(){
 
         var projectiles = level.projectiles;
         for(i =0 ; i< projectiles.length ; i++){
-
             projectiles[i].turn();
 
         }
